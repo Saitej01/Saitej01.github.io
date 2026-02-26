@@ -1,192 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Majji Sai Teja | Robotics & RL Engineer</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
-      --bg: #0a0e1a;
-      --surface: #111827;
-      --surface2: #1a2235;
-      --accent: #00e5ff;
-      --accent2: #7c3aed;
+      --bg: #060a14;
+      --surface: #0d1424;
+      --surface2: #131d30;
+      --accent: #00f0ff;
+      --accent2: #8b5cf6;
       --accent3: #10b981;
+      --red: #ff4d6d;
       --text: #e2e8f0;
-      --muted: #94a3b8;
-      --border: rgba(0,229,255,0.15);
-      --glow: 0 0 30px rgba(0,229,255,0.15);
+      --muted: #6b8099;
+      --border: rgba(0,240,255,0.12);
+      --glow: 0 0 40px rgba(0,240,255,0.12);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; overflow-x: hidden; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; overflow-x:hidden; cursor:none; }
 
+    /* Custom cursor */
+    .cursor { position:fixed; width:12px; height:12px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s, width 0.2s, height 0.2s; mix-blend-mode:difference; }
+    .cursor-ring { position:fixed; width:36px; height:36px; border:1px solid var(--accent); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:all 0.15s ease; opacity:0.5; }
+
+    /* Grid bg */
     body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px; pointer-events: none; z-index: 0;
+      content:''; position:fixed; inset:0;
+      background-image: linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
+      background-size:50px 50px; pointer-events:none; z-index:0;
     }
-
-    #particles-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5; }
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 4rem; background: rgba(10,14,26,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
-    .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.1em; text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; position: relative; }
-    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-links a:hover::after { width: 100%; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center; padding:1.2rem 4rem; background:rgba(6,10,20,0.8); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-family:'Space Mono',monospace; font-size:1rem; color:var(--accent); letter-spacing:0.12em; text-decoration:none; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:0.8rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; transition:color 0.2s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--accent); transition:width 0.3s; }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-links a:hover::after { width:100%; }
 
     /* HERO */
-    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; gap: 2rem; }
-    .hero-content { max-width: 620px; }
-    .hero-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); background: rgba(0,229,255,0.08); border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 2px; letter-spacing: 0.15em; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
-    .hero-name { font-size: clamp(3rem, 5vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; animation: fadeUp 0.6s 0.1s ease both; }
-    .hero-name span { display: block; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-subtitle { margin-top: 1.5rem; font-size: 1.05rem; color: var(--muted); line-height: 1.8; animation: fadeUp 0.6s 0.2s ease both; }
-    .hero-links { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
-    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.6s 0.4s ease both; }
-    .stat-item { text-align: left; }
-    .stat-num { font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.25rem; }
-
-    /* HERO ROBOT */
-    .hero-robot { display: flex; align-items: center; justify-content: center; animation: fadeUp 0.8s 0.3s ease both; position: relative; }
-    .robot-canvas-wrap { position: relative; width: 420px; height: 420px; }
-    #robot-canvas { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(0,229,255,0.3)); }
-    .robot-glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(0,229,255,0.1); animation: pulse-ring 3s ease-in-out infinite; }
-    .robot-glow-ring:nth-child(1) { inset: 10%; }
-    .robot-glow-ring:nth-child(2) { inset: 20%; animation-delay: 1s; border-color: rgba(124,58,237,0.1); }
-    .robot-glow-ring:nth-child(3) { inset: 30%; animation-delay: 2s; }
-    @keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.4} 50%{transform:scale(1.05);opacity:0.8} }
+    #hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:7rem 4rem 4rem; position:relative; z-index:1; }
+    .hero-left { max-width:580px; }
+    .hero-tag { display:inline-block; font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--accent); background:rgba(0,240,255,0.06); border:1px solid var(--border); padding:0.4rem 1rem; border-radius:2px; letter-spacing:0.2em; margin-bottom:1.5rem; animation:fadeUp 0.6s ease both; }
+    .hero-name { font-size:clamp(2.8rem,4.5vw,4.8rem); font-weight:800; line-height:1.05; letter-spacing:-0.02em; animation:fadeUp 0.6s 0.1s ease both; }
+    .hero-name .grad { background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--red) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-sub { margin-top:1.5rem; font-size:1rem; color:var(--muted); line-height:1.85; animation:fadeUp 0.6s 0.2s ease both; }
+    .hero-sub strong { color:var(--text); }
+    .hero-btns { display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap; animation:fadeUp 0.6s 0.3s ease both; }
+    .hero-stats { display:flex; gap:2.5rem; margin-top:3.5rem; animation:fadeUp 0.6s 0.4s ease both; }
+    .stat-num { font-family:'Space Mono',monospace; font-size:2rem; font-weight:700; color:var(--accent); }
+    .stat-label { font-size:0.7rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.2rem; }
 
     /* BUTTONS */
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; border-radius: 3px; font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.08em; text-decoration: none; font-weight: 700; transition: all 0.25s; cursor: pointer; border: none; }
-    .btn-primary { background: var(--accent); color: #0a0e1a; }
-    .btn-primary:hover { background: #fff; box-shadow: 0 0 24px rgba(0,229,255,0.5); transform: translateY(-2px); }
-    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .btn-outline:hover { background: rgba(0,229,255,0.1); transform: translateY(-2px); }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.75rem; border-radius:3px; font-family:'Space Mono',monospace; font-size:0.78rem; letter-spacing:0.08em; text-decoration:none; font-weight:700; transition:all 0.25s; cursor:none; border:none; }
+    .btn-primary { background:var(--accent); color:#060a14; }
+    .btn-primary:hover { background:#fff; box-shadow:0 0 30px rgba(0,240,255,0.5); transform:translateY(-2px); }
+    .btn-outline { background:transparent; color:var(--accent); border:1px solid rgba(0,240,255,0.4); }
+    .btn-outline:hover { background:rgba(0,240,255,0.08); border-color:var(--accent); transform:translateY(-2px); }
+
+    /* 3D ROBOT VIEWER */
+    .robot-viewer { position:relative; height:520px; display:flex; flex-direction:column; align-items:center; animation:fadeUp 0.8s 0.3s ease both; }
+    #three-canvas { width:100%; height:440px; border-radius:12px; border:1px solid var(--border); background:radial-gradient(ellipse at center, #0d1f35 0%, #060a14 70%); cursor:none; }
+
+    /* Robot selector tabs */
+    .robot-tabs { display:flex; gap:0.5rem; margin-top:1rem; }
+    .robot-tab { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; padding:0.45rem 1rem; border-radius:2px; border:1px solid var(--border); color:var(--muted); background:transparent; cursor:none; transition:all 0.2s; text-transform:uppercase; }
+    .robot-tab.active, .robot-tab:hover { border-color:var(--accent); color:var(--accent); background:rgba(0,240,255,0.07); }
+
+    /* Robot label overlay */
+    .robot-label { position:absolute; top:1rem; left:1rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--accent); opacity:0.7; letter-spacing:0.12em; }
+    .robot-status { position:absolute; top:1rem; right:1rem; display:flex; align-items:center; gap:0.4rem; font-family:'Space Mono',monospace; font-size:0.6rem; color:var(--accent3); }
+    .status-dot { width:6px; height:6px; border-radius:50%; background:var(--accent3); animation:blink-dot 1.2s ease infinite; }
+    @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
     /* SECTIONS */
-    section { position: relative; z-index: 1; padding: 6rem 4rem; }
-    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
-    .section-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); opacity: 0.6; }
-    .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
-    .section-line { flex: 1; height: 1px; background: var(--border); max-width: 300px; }
+    section { position:relative; z-index:1; padding:5.5rem 4rem; }
+    .section-header { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+    .section-num { font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--accent); opacity:0.5; }
+    .section-title { font-size:1.9rem; font-weight:800; letter-spacing:-0.02em; }
+    .section-line { flex:1; height:1px; background:var(--border); max-width:280px; }
 
     /* ABOUT */
-    #about { background: var(--surface); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .about-text { font-size: 1.05rem; line-height: 1.9; color: var(--muted); }
-    .about-text p+p { margin-top: 1rem; }
-    .about-text strong { color: var(--text); }
-    .about-info { display: flex; flex-direction: column; gap: 1rem; }
-    .info-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; transition: border-color 0.3s, box-shadow 0.3s; }
-    .info-item:hover { border-color: var(--accent); box-shadow: var(--glow); }
-    .info-icon { font-size: 1.25rem; width: 2rem; text-align: center; }
-    .info-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-    .info-value { font-size: 0.9rem; font-weight: 600; color: var(--text); }
-    .info-value a { color: var(--accent); text-decoration: none; }
+    #about { background:var(--surface); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+    .about-text { font-size:1rem; line-height:1.9; color:var(--muted); }
+    .about-text p+p { margin-top:1rem; }
+    .about-text strong { color:var(--text); }
+    .about-info { display:flex; flex-direction:column; gap:0.85rem; }
+    .info-item { display:flex; align-items:center; gap:1rem; padding:0.9rem 1.2rem; background:var(--surface2); border:1px solid var(--border); border-radius:4px; transition:border-color 0.3s, box-shadow 0.3s; }
+    .info-item:hover { border-color:var(--accent); box-shadow:var(--glow); }
+    .info-icon { font-size:1.1rem; width:2rem; text-align:center; }
+    .info-label { font-size:0.65rem; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; }
+    .info-value { font-size:0.875rem; font-weight:600; color:var(--text); }
+    .info-value a { color:var(--accent); text-decoration:none; }
 
     /* EDUCATION */
-    .edu-cards { display: flex; flex-direction: column; gap: 1.25rem; }
-    .edu-card { padding: 1.75rem 2rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; transition: transform 0.3s, box-shadow 0.3s; }
-    .edu-card:hover { transform: translateX(6px); box-shadow: var(--glow); }
-    .edu-degree { font-size: 1.1rem; font-weight: 700; color: var(--text); }
-    .edu-school { font-size: 0.9rem; color: var(--accent); margin-top: 0.25rem; font-family: 'Space Mono', monospace; }
-    .edu-meta { display: flex; gap: 1.5rem; margin-top: 0.75rem; }
-    .edu-year, .edu-gpa { font-size: 0.8rem; color: var(--muted); font-family: 'Space Mono', monospace; }
-    .edu-gpa { color: var(--accent3); }
-    .edu-courses { margin-top: 0.75rem; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    .edu-cards { display:flex; flex-direction:column; gap:1rem; }
+    .edu-card { padding:1.6rem 2rem; background:var(--surface); border:1px solid var(--border); border-left:2px solid var(--accent); border-radius:4px; transition:transform 0.3s, box-shadow 0.3s; }
+    .edu-card:hover { transform:translateX(6px); box-shadow:var(--glow); }
+    .edu-degree { font-size:1.05rem; font-weight:700; }
+    .edu-school { font-size:0.85rem; color:var(--accent); margin-top:0.2rem; font-family:'Space Mono',monospace; }
+    .edu-meta { display:flex; gap:1.5rem; margin-top:0.6rem; }
+    .edu-year { font-size:0.75rem; color:var(--muted); font-family:'Space Mono',monospace; }
+    .edu-gpa { font-size:0.75rem; color:var(--accent3); font-family:'Space Mono',monospace; }
+    .edu-courses { margin-top:0.65rem; font-size:0.78rem; color:var(--muted); line-height:1.6; }
 
     /* EXPERIENCE */
-    #experience { background: var(--surface); }
-    .exp-card { padding: 2rem 2.25rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; transition: border-color 0.3s, box-shadow 0.3s; }
-    .exp-card:hover { border-color: var(--accent); box-shadow: var(--glow); }
-    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
-    .exp-role { font-size: 1.2rem; font-weight: 700; color: var(--text); }
-    .exp-org { font-size: 0.9rem; color: var(--accent); font-family: 'Space Mono', monospace; margin-top: 0.25rem; }
-    .exp-period { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); background: var(--surface2); padding: 0.35rem 0.75rem; border-radius: 2px; border: 1px solid var(--border); white-space: nowrap; }
-    .exp-bullets { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
-    .exp-bullet { display: flex; gap: 0.75rem; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
-    .exp-bullet::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 0.05rem; }
+    #experience { background:var(--surface); }
+    .exp-card { padding:2rem 2.25rem; background:var(--bg); border:1px solid var(--border); border-radius:6px; transition:border-color 0.3s, box-shadow 0.3s; }
+    .exp-card:hover { border-color:var(--accent); box-shadow:var(--glow); }
+    .exp-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; }
+    .exp-role { font-size:1.15rem; font-weight:700; }
+    .exp-org { font-size:0.85rem; color:var(--accent); font-family:'Space Mono',monospace; margin-top:0.2rem; }
+    .exp-period { font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--muted); background:var(--surface2); padding:0.3rem 0.75rem; border-radius:2px; border:1px solid var(--border); white-space:nowrap; }
+    .exp-bullets { margin-top:1.25rem; display:flex; flex-direction:column; gap:0.55rem; }
+    .exp-bullet { display:flex; gap:0.75rem; font-size:0.875rem; color:var(--muted); line-height:1.65; }
+    .exp-bullet::before { content:'→'; color:var(--accent); flex-shrink:0; margin-top:0.05rem; }
 
     /* PROJECTS */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
-    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; position: relative; overflow: hidden; cursor: pointer; }
-    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
-    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), var(--glow); border-color: rgba(0,229,255,0.3); }
-    .project-card:hover::before { transform: scaleX(1); }
-
-    /* Animated mini robot on each project card */
-    .card-robot { position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
-    .project-card:hover .card-robot { opacity: 1; transform: scale(1.1); }
-    .card-robot svg { width: 100%; height: 100%; }
-
-    .project-num { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); opacity: 0.5; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
-    .project-title { font-size: 1.05rem; font-weight: 700; color: var(--text); line-height: 1.4; padding-right: 3rem; }
-    .project-desc { margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
-    .tag { font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.3rem 0.6rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.2); border-radius: 2px; color: var(--accent); letter-spacing: 0.05em; }
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.25rem; }
+    .project-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:1.6rem; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s; position:relative; overflow:hidden; }
+    .project-card::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg, var(--accent), var(--accent2)); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+    .project-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(0,0,0,0.4), var(--glow); border-color:rgba(0,240,255,0.25); }
+    .project-card:hover::after { transform:scaleX(1); }
+    .project-num { font-family:'Space Mono',monospace; font-size:0.6rem; color:var(--accent); opacity:0.45; letter-spacing:0.12em; margin-bottom:0.65rem; }
+    .project-title { font-size:1rem; font-weight:700; line-height:1.4; padding-right:2.5rem; }
+    .project-desc { margin-top:0.65rem; font-size:0.82rem; color:var(--muted); line-height:1.75; }
+    .project-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1.1rem; }
+    .tag { font-family:'Space Mono',monospace; font-size:0.6rem; padding:0.25rem 0.55rem; background:rgba(0,240,255,0.06); border:1px solid rgba(0,240,255,0.18); border-radius:2px; color:var(--accent); }
 
     /* SKILLS */
-    #skills { background: var(--surface); }
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-    .skill-group { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.3s; }
-    .skill-group:hover { border-color: var(--accent); }
-    .skill-group-title { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skill-tag { font-size: 0.8rem; padding: 0.35rem 0.75rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; color: var(--text); transition: background 0.2s, border-color 0.2s, color 0.2s; }
-    .skill-tag:hover { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
+    #skills { background:var(--surface); }
+    .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1.25rem; }
+    .skill-group { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1.4rem; transition:border-color 0.3s; }
+    .skill-group:hover { border-color:var(--accent); }
+    .skill-group-title { font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.9rem; padding-bottom:0.7rem; border-bottom:1px solid var(--border); }
+    .skill-tags { display:flex; flex-wrap:wrap; gap:0.45rem; }
+    .skill-tag { font-size:0.78rem; padding:0.3rem 0.7rem; background:var(--surface2); border:1px solid var(--border); border-radius:3px; color:var(--text); transition:all 0.2s; }
+    .skill-tag:hover { background:rgba(0,240,255,0.09); border-color:var(--accent); color:var(--accent); }
 
-    /* CERTIFICATIONS */
-    .cert-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-    .cert-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; transition: border-color 0.3s; }
-    .cert-item:hover { border-color: var(--accent3); }
-    .cert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; margin-top: 0.35rem; }
-    .cert-text { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    /* CERTS */
+    .cert-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:0.9rem; }
+    .cert-item { display:flex; align-items:flex-start; gap:0.9rem; padding:0.9rem 1.1rem; background:var(--surface); border:1px solid var(--border); border-radius:4px; transition:border-color 0.3s; }
+    .cert-item:hover { border-color:var(--accent3); }
+    .cert-dot { width:7px; height:7px; border-radius:50%; background:var(--accent3); flex-shrink:0; margin-top:0.35rem; }
+    .cert-text { font-size:0.82rem; color:var(--muted); line-height:1.5; }
 
     /* ACTIVITIES */
-    #activities { background: var(--surface); }
-    .activity-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
-    .activity-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: transform 0.3s, border-color 0.3s; }
-    .activity-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
-    .activity-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
-    .activity-org { font-size: 0.8rem; color: var(--accent2); font-family: 'Space Mono', monospace; margin-top: 0.25rem; }
-    .activity-date { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
-    .activity-desc { margin-top: 0.75rem; font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    #activities { background:var(--surface); }
+    .activity-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
+    .activity-card { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1.4rem; transition:transform 0.3s, border-color 0.3s; }
+    .activity-card:hover { transform:translateY(-4px); border-color:var(--accent2); }
+    .activity-title { font-size:0.92rem; font-weight:700; }
+    .activity-org { font-size:0.75rem; color:var(--accent2); font-family:'Space Mono',monospace; margin-top:0.2rem; }
+    .activity-date { font-size:0.7rem; color:var(--muted); margin-top:0.2rem; }
+    .activity-desc { margin-top:0.7rem; font-size:0.8rem; color:var(--muted); line-height:1.6; }
 
     /* CONTACT */
-    #contact { text-align: center; padding: 6rem 4rem; }
-    .contact-robot-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
-    #waving-robot { width: 150px; height: 170px; cursor: pointer; overflow: visible; }
-    .robot-float { animation: float-bot 3s ease-in-out infinite; }
-    @keyframes float-bot { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    #waving-robot:hover .arm-right { animation: wave 0.45s ease-in-out infinite alternate; transform-origin: 80px 54px; }
-    #waving-robot:hover .bot-eye { animation: blink 1.2s ease infinite; transform-box: fill-box; transform-origin: center; }
-    @keyframes wave { from{transform:rotate(-25deg)} to{transform:rotate(35deg)} }
-    @keyframes blink { 0%,85%,100%{transform:scaleY(1)} 90%{transform:scaleY(0.05)} }
+    #contact { text-align:center; padding:6rem 4rem; }
+    .contact-title { font-size:clamp(1.8rem,3vw,3rem); font-weight:800; letter-spacing:-0.02em; margin-bottom:1rem; }
+    .contact-title span { color:var(--accent); }
+    .contact-sub { font-size:1rem; color:var(--muted); margin-bottom:2.5rem; }
+    .contact-links { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
 
-    .contact-tagline { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
-    .contact-tagline span { color: var(--accent); }
-    .contact-sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; }
-    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    footer { text-align:center; padding:2rem; border-top:1px solid var(--border); font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--muted); position:relative; z-index:1; }
 
-    footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); position: relative; z-index: 1; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 900px) { #hero { grid-template-columns: 1fr; } .hero-robot { display: none; } }
-    @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } .nav-links { display: none; } section, #hero, #contact { padding: 4rem 1.5rem; } .about-grid { grid-template-columns: 1fr; gap: 2rem; } .hero-stats { gap: 1.5rem; } }
+    @media(max-width:900px) { #hero{grid-template-columns:1fr} .robot-viewer{display:none} }
+    @media(max-width:768px) { nav{padding:1rem 1.5rem} .nav-links{display:none} section,#hero,#contact{padding:4rem 1.5rem} .about-grid{grid-template-columns:1fr;gap:2rem} }
   </style>
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
   <a class="nav-logo" href="#">MST_</a>
@@ -202,29 +198,31 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-content">
-    <div class="hero-tag">// Electronics & Robotics Engineer</div>
-    <h1 class="hero-name">Majji<span>Sai Teja</span></h1>
-    <p class="hero-subtitle">Final-year ECE student & Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems using RL.</p>
-    <div class="hero-links">
+  <div class="hero-left">
+    <div class="hero-tag">// Robotics · RL · Control Systems</div>
+    <h1 class="hero-name">Majji<br><span class="grad">Sai Teja</span></h1>
+    <p class="hero-sub">Final-year ECE student & Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems.</p>
+    <div class="hero-btns">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-outline">Get In Touch</a>
       <a href="https://github.com/Saitej01" target="_blank" class="btn btn-outline">GitHub</a>
       <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item"><div class="stat-num">8.99</div><div class="stat-label">GPA / 10.0</div></div>
+      <div class="stat-item"><div class="stat-num">8.99</div><div class="stat-label">GPA / 10</div></div>
       <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
       <div class="stat-item"><div class="stat-num">IIT</div><div class="stat-label">Mandi Intern</div></div>
     </div>
   </div>
 
-  <div class="hero-robot">
-    <div class="robot-canvas-wrap">
-      <div class="robot-glow-ring"></div>
-      <div class="robot-glow-ring"></div>
-      <div class="robot-glow-ring"></div>
-      <canvas id="robot-canvas" width="420" height="420"></canvas>
+  <div class="robot-viewer">
+    <div class="robot-label" id="robot-label">QUADRUPED_WALKER</div>
+    <div class="robot-status"><div class="status-dot"></div>SIMULATING</div>
+    <canvas id="three-canvas"></canvas>
+    <div class="robot-tabs">
+      <button class="robot-tab active" onclick="switchRobot('quadruped',this)">Quadruped</button>
+      <button class="robot-tab" onclick="switchRobot('manipulator',this)">Manipulator</button>
+      <button class="robot-tab" onclick="switchRobot('humanoid',this)">Humanoid</button>
     </div>
   </div>
 </section>
@@ -236,7 +234,7 @@
     <div class="about-text reveal">
       <p>I'm an <strong>Electronics & Communication Engineering</strong> final-year student at RGUKT Srikakulam with a deep focus on robotics and reinforcement learning. My work lives at the intersection of embedded systems and intelligent control.</p>
       <p>Currently a <strong>Research Intern at IIT Mandi's Center for AI & Robotics Lab</strong>, where I develop RL environments for 6-DOF manipulators in Isaac Lab, formulate energy-aware reward functions, and engineer sim-to-real pipelines.</p>
-      <p>I'm passionate about closing the gap between simulation and physical hardware — building policies that are not just smart in sim, but reliable on real robots. From Arduino motor control to MAPPO-based dual-arm cooperation, I enjoy working across the full stack.</p>
+      <p>I'm passionate about closing the gap between simulation and physical hardware — building policies that are not just smart in sim, but reliable on real robots.</p>
     </div>
     <div class="about-info reveal">
       <div class="info-item"><div class="info-icon">📍</div><div><div class="info-label">Location</div><div class="info-value">Vizianagaram, India</div></div></div>
@@ -253,7 +251,7 @@
 <section id="education">
   <div class="section-header reveal"><span class="section-num">02</span><h2 class="section-title">Education</h2><div class="section-line"></div></div>
   <div class="edu-cards">
-    <div class="edu-card reveal"><div class="edu-degree">B.Tech — Electronics & Communication Engineering</div><div class="edu-school">RGUKT Srikakulam</div><div class="edu-meta"><span class="edu-year">2022 – Present (4th Year)</span><span class="edu-gpa">GPA: 8.99 / 10.0</span></div><div class="edu-courses">Coursework: Embedded Systems · Computational Science Using Python · Machine Learning for Engineering · Embedded Sensing & Actuation · PCB Design with CAD Software · Microprocessors & Microcontrollers</div></div>
+    <div class="edu-card reveal"><div class="edu-degree">B.Tech — Electronics & Communication Engineering</div><div class="edu-school">RGUKT Srikakulam</div><div class="edu-meta"><span class="edu-year">2022 – Present (4th Year)</span><span class="edu-gpa">GPA: 8.99 / 10.0</span></div><div class="edu-courses">Embedded Systems · Computational Science Using Python · Machine Learning for Engineering · Embedded Sensing & Actuation · PCB Design with CAD · Microprocessors & Microcontrollers</div></div>
     <div class="edu-card reveal"><div class="edu-degree">Pre-University Course (PUC)</div><div class="edu-school">RGUKT Srikakulam</div><div class="edu-meta"><span class="edu-year">2020 – 2022</span><span class="edu-gpa">GPA: 9.88 / 10.0</span></div></div>
     <div class="edu-card reveal"><div class="edu-degree">Secondary School Certificate (SSC)</div><div class="edu-school">Varalakshmi Stann's School</div><div class="edu-meta"><span class="edu-year">2020</span><span class="edu-gpa">GPA: 9.8 / 10.0</span></div></div>
   </div>
@@ -267,9 +265,9 @@
     <div class="exp-bullets">
       <div class="exp-bullet">Developed RL environments for 6-DOF manipulators in Isaac Lab, addressing non-spherical wrist kinematics where standard analytical IK decoupling is computationally complex.</div>
       <div class="exp-bullet">Implemented joint velocity control using PPO, formulating energy-aware reward functions to minimize oscillations and ensure smooth control transitions for physical hardware.</div>
-      <div class="exp-bullet">Engineered a Sim-to-Real pipeline by analyzing the impact of simulation frequencies and contact dynamics on policy convergence and stability.</div>
-      <div class="exp-bullet">Formulated Dual-Arm Cooperative IK using MAPPO, enforcing relative pose and antipodal constraints for synchronized end-effector alignment in collaborative manipulation tasks.</div>
-      <div class="exp-bullet">Integrated safety-critical constraints including joint limit avoidance and self-collision barriers within the continuous action space to guarantee operational safety.</div>
+      <div class="exp-bullet">Engineered a Sim-to-Real pipeline by analyzing simulation frequencies and contact dynamics on policy convergence and stability.</div>
+      <div class="exp-bullet">Formulated Dual-Arm Cooperative IK using MAPPO, enforcing relative pose and antipodal constraints for synchronized end-effector alignment.</div>
+      <div class="exp-bullet">Integrated safety-critical constraints including joint limit avoidance and self-collision barriers within the continuous action space.</div>
     </div>
   </div>
 </section>
@@ -278,39 +276,10 @@
 <section id="projects">
   <div class="section-header reveal"><span class="section-num">04</span><h2 class="section-title">Projects</h2><div class="section-line"></div></div>
   <div class="projects-grid">
-
-    <div class="project-card reveal">
-      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#00e5ff"/><circle cx="26.5" cy="21.5" r="2.5" fill="#00e5ff"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#00e5ff" opacity="0.4"/><line x1="5" y1="20" x2="11" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="project-num">PROJECT_01</div>
-      <div class="project-title">3-DOF Spatial Robotic Manipulator: Visual Servoing</div>
-      <div class="project-desc">Control framework implementing IBVS and PBVS for target tracking. Used ArUco markers for real-time 4D pose estimation and the Image Jacobian to map pixel errors to joint velocities.</div>
-      <div class="project-tags"><span class="tag">ROS2</span><span class="tag">OpenCV</span><span class="tag">IBVS</span><span class="tag">PBVS</span><span class="tag">ArUco</span></div>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#7c3aed" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#7c3aed" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#7c3aed"/><circle cx="26.5" cy="21.5" r="2.5" fill="#7c3aed"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#7c3aed" opacity="0.5"/><line x1="5" y1="20" x2="11" y2="20" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="project-num">PROJECT_02</div>
-      <div class="project-title">4-DOF Robotic Arm with Bluetooth Control</div>
-      <div class="project-desc">Designed and fabricated a 4-DOF robotic arm using SG90 servo motors with wireless control via HC-05 Bluetooth module and UART protocol, enabling real-time smartphone manipulation.</div>
-      <div class="project-tags"><span class="tag">Arduino</span><span class="tag">Bluetooth</span><span class="tag">UART</span><span class="tag">Servo Control</span></div>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#10b981" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#10b981" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#10b981"/><circle cx="26.5" cy="21.5" r="2.5" fill="#10b981"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#10b981" opacity="0.5"/><line x1="5" y1="20" x2="11" y2="20" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="project-num">PROJECT_03</div>
-      <div class="project-title">RC Car — ESP8266 Wireless Control</div>
-      <div class="project-desc">Developed an RC vehicle using ESP-NOW protocol for low-latency peer-to-peer wireless communication with H-Bridge motor driver and servo-actuated mechanical steering.</div>
-      <div class="project-tags"><span class="tag">ESP8266</span><span class="tag">ESP-NOW</span><span class="tag">L298N</span><span class="tag">Embedded C</span></div>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#00e5ff"/><circle cx="26.5" cy="21.5" r="2.5" fill="#00e5ff"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#00e5ff" opacity="0.4"/><line x1="5" y1="20" x2="11" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="project-num">PROJECT_04</div>
-      <div class="project-title">Smart Camera System with OCR</div>
-      <div class="project-desc">Built an image-based text extraction system using a pre-trained OCR model with computer vision pipelines to detect characters from images including license plates and labels.</div>
-      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">OCR</span><span class="tag">Computer Vision</span></div>
-    </div>
-
+    <div class="project-card reveal"><div class="project-num">PROJECT_01</div><div class="project-title">3-DOF Spatial Robotic Manipulator: Visual Servoing</div><div class="project-desc">Control framework implementing IBVS and PBVS for target tracking. Used ArUco markers for 4D pose estimation and Image Jacobian to map pixel errors to joint velocities.</div><div class="project-tags"><span class="tag">ROS2</span><span class="tag">OpenCV</span><span class="tag">IBVS</span><span class="tag">PBVS</span><span class="tag">ArUco</span></div></div>
+    <div class="project-card reveal"><div class="project-num">PROJECT_02</div><div class="project-title">4-DOF Robotic Arm with Bluetooth Control</div><div class="project-desc">Designed a 4-DOF robotic arm using SG90 servos with wireless control via HC-05 Bluetooth and UART protocol, enabling real-time smartphone manipulation.</div><div class="project-tags"><span class="tag">Arduino</span><span class="tag">Bluetooth</span><span class="tag">UART</span><span class="tag">Servo Control</span></div></div>
+    <div class="project-card reveal"><div class="project-num">PROJECT_03</div><div class="project-title">RC Car — ESP8266 Wireless Control</div><div class="project-desc">RC vehicle using ESP-NOW protocol for low-latency P2P communication with H-Bridge motor driver and servo-actuated mechanical steering system.</div><div class="project-tags"><span class="tag">ESP8266</span><span class="tag">ESP-NOW</span><span class="tag">L298N</span><span class="tag">Embedded C</span></div></div>
+    <div class="project-card reveal"><div class="project-num">PROJECT_04</div><div class="project-title">Smart Camera System with OCR</div><div class="project-desc">Image-based text extraction system using pre-trained OCR model with CV pipelines to detect characters from license plates and labels.</div><div class="project-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">OCR</span><span class="tag">Computer Vision</span></div></div>
   </div>
 </section>
 
@@ -318,12 +287,12 @@
 <section id="skills">
   <div class="section-header reveal"><span class="section-num">05</span><h2 class="section-title">Skills</h2><div class="section-line"></div></div>
   <div class="skills-grid">
-    <div class="skill-group reveal"><div class="skill-group-title">Programming Languages</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">Assembly (8085)</span><span class="skill-tag">Assembly (8086)</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Programming</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">Assembly 8085</span><span class="skill-tag">Assembly 8086</span></div></div>
     <div class="skill-group reveal"><div class="skill-group-title">Robot Learning & Control</div><div class="skill-tags"><span class="skill-tag">Reinforcement Learning</span><span class="skill-tag">PPO</span><span class="skill-tag">MAPPO</span><span class="skill-tag">Forward Kinematics</span><span class="skill-tag">Inverse Kinematics</span><span class="skill-tag">Velocity Kinematics</span></div></div>
     <div class="skill-group reveal"><div class="skill-group-title">Simulation & Robotics</div><div class="skill-tags"><span class="skill-tag">ROS2</span><span class="skill-tag">IsaacLab</span><span class="skill-tag">IsaacSim</span><span class="skill-tag">IsaacGym</span><span class="skill-tag">Gazebo</span><span class="skill-tag">RViz</span><span class="skill-tag">PyBullet</span></div></div>
     <div class="skill-group reveal"><div class="skill-group-title">Embedded Systems</div><div class="skill-tags"><span class="skill-tag">Arduino</span><span class="skill-tag">ESP32</span><span class="skill-tag">ESP8266</span><span class="skill-tag">Raspberry Pi</span><span class="skill-tag">ESP32Cam</span></div></div>
     <div class="skill-group reveal"><div class="skill-group-title">Deep Learning & CV</div><div class="skill-tags"><span class="skill-tag">PyTorch</span><span class="skill-tag">Computer Vision</span><span class="skill-tag">OpenCV</span></div></div>
-    <div class="skill-group reveal"><div class="skill-group-title">Software & Tools</div><div class="skill-tags"><span class="skill-tag">Arduino IDE</span><span class="skill-tag">Fusion 360</span><span class="skill-tag">Tinkercad</span><span class="skill-tag">Wokwi</span><span class="skill-tag">Thonny</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Tools</div><div class="skill-tags"><span class="skill-tag">Arduino IDE</span><span class="skill-tag">Fusion 360</span><span class="skill-tag">Tinkercad</span><span class="skill-tag">Wokwi</span></div></div>
   </div>
 </section>
 
@@ -331,12 +300,12 @@
 <section id="certifications">
   <div class="section-header reveal"><span class="section-num">06</span><h2 class="section-title">Courses & Certifications</h2><div class="section-line"></div></div>
   <div class="cert-list">
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Python Programming from Basic to Advanced Level — Udemy</div></div>
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Robotic Operating System with Arduino — ROS Basics (Udemy)</div></div>
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Machine Learning for Engineering and Science Applications — NPTEL</div></div>
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Embedded Sensing, Actuation and Interfacing Systems — NPTEL</div></div>
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Electronic Systems Design: Circuits and PCB Design with CAD — NPTEL</div></div>
-    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Introduction to Industry 4.0 and Industrial IoT — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Python Programming from Basic to Advanced — Udemy</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">ROS with Arduino — ROS Basics (Udemy)</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Machine Learning for Engineering & Science — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Embedded Sensing, Actuation & Interfacing — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Electronic Systems Design & PCB with CAD — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Industry 4.0 & Industrial IoT — NPTEL</div></div>
     <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">My Equation: ROBOAI — Pearl Batch</div></div>
   </div>
 </section>
@@ -345,45 +314,17 @@
 <section id="activities">
   <div class="section-header reveal"><span class="section-num">07</span><h2 class="section-title">Activities & Leadership</h2><div class="section-line"></div></div>
   <div class="activity-cards">
-    <div class="activity-card reveal"><div class="activity-title">🏆 Arduinothon — 1st Place</div><div class="activity-org">Techniverse, RGUKT Srikakulam</div><div class="activity-desc">Competed in the Arduinothon event and secured first place.</div></div>
-    <div class="activity-card reveal"><div class="activity-title">Vice Leader — Robotics Club</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-desc">Led club activities, organized workshops, and mentored peers in embedded systems and robotics.</div></div>
-    <div class="activity-card reveal"><div class="activity-title">Student Instructor — IoT & Sensors</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">February 2024</div><div class="activity-desc">Conducted a week-long training on IoT and sensor technologies with hands-on activities.</div></div>
-    <div class="activity-card reveal"><div class="activity-title">Embedded Systems & IoT Workshop</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">January 2025</div><div class="activity-desc">Conducted hands-on workshop on Embedded Systems and IoT. Assembled a robotic arm with Bluetooth-based control.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">🏆 Arduinothon — 1st Place</div><div class="activity-org">Techniverse, RGUKT Srikakulam</div><div class="activity-desc">Secured first place in Arduinothon hardware competition.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Vice Leader — Robotics Club</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-desc">Led club activities and mentored peers in embedded systems and robotics.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Student Instructor — IoT & Sensors</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">February 2024</div><div class="activity-desc">Conducted a week-long training session on IoT and sensor technologies with hands-on activities.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Embedded Systems & IoT Workshop</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">January 2025</div><div class="activity-desc">Conducted hands-on workshop, assembled a robotic arm with Bluetooth-based control.</div></div>
   </div>
 </section>
 
-<!-- CONTACT with waving robot -->
+<!-- CONTACT -->
 <section id="contact">
-  <div class="contact-robot-wrap">
-    <svg id="waving-robot" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="robot-float">
-      <!-- Antenna -->
-      <line x1="50" y1="10" x2="50" y2="3" stroke="#00e5ff" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="50" cy="2" r="2.5" fill="#00e5ff"/>
-      <!-- Head -->
-      <rect x="28" y="10" width="44" height="34" rx="9" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-      <!-- Eyes -->
-      <rect class="bot-eye" x="34" y="20" width="12" height="8" rx="3" fill="#00e5ff"/>
-      <rect class="bot-eye" x="54" y="20" width="12" height="8" rx="3" fill="#00e5ff"/>
-      <!-- Mouth -->
-      <rect x="36" y="33" width="28" height="5" rx="2.5" fill="#00e5ff" opacity="0.35"/>
-      <!-- Body -->
-      <rect x="20" y="48" width="60" height="48" rx="10" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-      <!-- Chest display -->
-      <rect x="32" y="57" width="36" height="22" rx="5" fill="#0a0e1a" stroke="rgba(0,229,255,0.25)" stroke-width="1"/>
-      <circle cx="41" cy="68" r="5" fill="#7c3aed" opacity="0.85"/>
-      <circle cx="50" cy="68" r="5" fill="#00e5ff" opacity="0.85"/>
-      <circle cx="59" cy="68" r="5" fill="#10b981" opacity="0.85"/>
-      <!-- Left arm (static) -->
-      <rect x="5" y="50" width="13" height="32" rx="6.5" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-      <!-- Right arm (waves on hover) -->
-      <rect class="arm-right" x="82" y="50" width="13" height="32" rx="6.5" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-      <!-- Legs -->
-      <rect x="28" y="98" width="16" height="26" rx="7" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-      <rect x="56" y="98" width="16" height="26" rx="7" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
-    </svg>
-  </div>
-  <div class="contact-tagline reveal">Let's build something <span>real</span> together.</div>
-  <p class="contact-sub reveal">Open to research collaborations, internships, and full-time roles in robotics & RL.<br><small style="opacity:0.5;font-size:0.8rem">↑ Hover the robot!</small></p>
+  <div class="contact-title reveal">Let's build something <span>real</span> together.</div>
+  <p class="contact-sub reveal">Open to research collaborations, internships, and full-time roles in robotics & RL.</p>
   <div class="contact-links reveal">
     <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-primary">✉ Email Me</a>
     <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
@@ -394,140 +335,564 @@
 <footer><p>Built by Majji Sai Teja · <span id="year"></span></p></footer>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+(function animCursor(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animCursor); })();
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); } });
-  }, { threshold: 0.1 }).observe ? (() => {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => obs.observe(el));
-  })() : reveals.forEach(el => el.classList.add('visible'));
+// ── SCROLL REVEAL ──
+document.getElementById('year').textContent = new Date().getFullYear();
+const obs = new IntersectionObserver(entries=>{ entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*70); obs.unobserve(e.target); } }); },{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // ── FLOATING PARTICLES ──
-  const canvas = document.getElementById('particles-canvas');
-  const ctx = canvas.getContext('2d');
-  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+// ══════════════════════════════════════════════
+//  THREE.JS 3D ROBOT SCENE
+// ══════════════════════════════════════════════
+const canvas3d = document.getElementById('three-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
 
-  const PCOLS = ['rgba(0,229,255,', 'rgba(124,58,237,', 'rgba(16,185,129,'];
-  class Particle {
-    constructor() { this.reset(true); }
-    reset(init) {
-      this.x = Math.random() * canvas.width;
-      this.y = init ? Math.random() * canvas.height : (Math.random() > 0.5 ? -20 : canvas.height + 20);
-      this.size = Math.random() * 5 + 2;
-      this.vx = (Math.random() - 0.5) * 0.35;
-      this.vy = (Math.random() - 0.5) * 0.35;
-      this.alpha = Math.random() * 0.4 + 0.1;
-      this.type = ['dot','ring','cross','gear'][Math.floor(Math.random()*4)];
-      this.col = PCOLS[Math.floor(Math.random()*3)];
-      this.rot = Math.random() * Math.PI * 2;
-      this.rotV = (Math.random() - 0.5) * 0.025;
-    }
-    update() {
-      this.x += this.vx; this.y += this.vy; this.rot += this.rotV;
-      if (this.x < -30 || this.x > canvas.width+30 || this.y < -30 || this.y > canvas.height+30) this.reset(false);
-    }
-    draw() {
-      ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
-      const c = this.col + this.alpha + ')';
-      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 1;
-      if (this.type === 'dot') { ctx.beginPath(); ctx.arc(0,0,this.size*0.5,0,Math.PI*2); ctx.fill(); }
-      else if (this.type === 'ring') { ctx.beginPath(); ctx.arc(0,0,this.size,0,Math.PI*2); ctx.stroke(); }
-      else if (this.type === 'cross') { const s=this.size; ctx.beginPath(); ctx.moveTo(-s,0); ctx.lineTo(s,0); ctx.moveTo(0,-s); ctx.lineTo(0,s); ctx.stroke(); }
-      else {
-        const r=this.size, t=6, ir=r*0.6;
-        ctx.beginPath();
-        for (let i=0; i<t*2; i++) { const a=(i/(t*2))*Math.PI*2, rad=i%2===0?r:ir; i===0?ctx.moveTo(Math.cos(a)*rad,Math.sin(a)*rad):ctx.lineTo(Math.cos(a)*rad,Math.sin(a)*rad); }
-        ctx.closePath(); ctx.stroke();
-        ctx.beginPath(); ctx.arc(0,0,ir*0.4,0,Math.PI*2); ctx.stroke();
-      }
-      ctx.restore();
-    }
-  }
-  const particles = Array.from({length:80}, () => new Particle());
-  (function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(loop); })();
+const W = canvas3d.clientWidth, H = canvas3d.clientHeight;
+renderer.setSize(W, H);
 
-  // ── HERO ROBOT ARM ──
-  const ac = document.getElementById('robot-canvas');
-  const rc = ac.getContext('2d');
-  const CX=210, CY=300;
-  const segs = [
-    {len:90, a:-Math.PI/2, sp:0.008, amp:0.35, ph:0},
-    {len:75, a:-Math.PI/4, sp:0.012, amp:0.45, ph:1.2},
-    {len:55, a: Math.PI/6, sp:0.015, amp:0.4,  ph:2.4},
-    {len:35, a: Math.PI/8, sp:0.02,  amp:0.3,  ph:3.6},
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x060a14, 0.06);
+
+const camera = new THREE.PerspectiveCamera(50, W/H, 0.1, 100);
+camera.position.set(0, 2.5, 7);
+camera.lookAt(0, 0, 0);
+
+// Lighting
+const ambient = new THREE.AmbientLight(0x112233, 1.5);
+scene.add(ambient);
+
+const dirLight = new THREE.DirectionalLight(0x00f0ff, 3);
+dirLight.position.set(5, 8, 5);
+dirLight.castShadow = true;
+scene.add(dirLight);
+
+const purpleLight = new THREE.PointLight(0x8b5cf6, 4, 12);
+purpleLight.position.set(-4, 2, 2);
+scene.add(purpleLight);
+
+const greenLight = new THREE.PointLight(0x10b981, 2, 10);
+greenLight.position.set(4, 1, -2);
+scene.add(greenLight);
+
+// Grid floor
+const gridHelper = new THREE.GridHelper(16, 20, 0x00f0ff, 0x0d1424);
+gridHelper.position.y = -1.5;
+gridHelper.material.opacity = 0.25;
+gridHelper.material.transparent = true;
+scene.add(gridHelper);
+
+// Materials
+const CYAN   = new THREE.MeshStandardMaterial({ color: 0x00f0ff, metalness: 0.8, roughness: 0.15, emissive: 0x003344 });
+const DARK   = new THREE.MeshStandardMaterial({ color: 0x0d1f35, metalness: 0.9, roughness: 0.2 });
+const PURPLE = new THREE.MeshStandardMaterial({ color: 0x8b5cf6, metalness: 0.7, roughness: 0.2, emissive: 0x1a0033 });
+const GREEN  = new THREE.MeshStandardMaterial({ color: 0x10b981, metalness: 0.7, roughness: 0.2, emissive: 0x002211 });
+const GREY   = new THREE.MeshStandardMaterial({ color: 0x1a2a3a, metalness: 0.85, roughness: 0.15 });
+const JOINT_MAT = new THREE.MeshStandardMaterial({ color: 0x00f0ff, metalness: 0.6, roughness: 0.3, emissive: 0x004455 });
+
+function makeCylinder(rt, rb, h, mat, segs=12) {
+  return new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, segs), mat);
+}
+function makeBox(w, h, d, mat) {
+  return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+}
+function makeSphere(r, mat, segs=16) {
+  return new THREE.Mesh(new THREE.SphereGeometry(r, segs, segs), mat);
+}
+
+// ─── ROBOT GROUPS ───
+let robotGroup = null;
+let currentRobot = 'quadruped';
+let clock = new THREE.Clock();
+
+// ── HELPER: glowing line ──
+function makeGlowLine(from, to, color=0x00f0ff) {
+  const pts = [new THREE.Vector3(...from), new THREE.Vector3(...to)];
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const mat = new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.5 });
+  return new THREE.Line(geo, mat);
+}
+
+// ══════════════════════════════════════════════
+//  QUADRUPED
+// ══════════════════════════════════════════════
+function buildQuadruped() {
+  const g = new THREE.Group();
+
+  // Body
+  const body = makeBox(2.2, 0.6, 1.1, DARK);
+  body.castShadow = true;
+  g.add(body);
+
+  // Body panel lines
+  const panelGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(2.2,0.6,1.1));
+  const panelLine = new THREE.LineSegments(panelGeo, new THREE.LineBasicMaterial({color:0x00f0ff, transparent:true, opacity:0.4}));
+  g.add(panelLine);
+
+  // Head
+  const head = makeBox(0.7, 0.55, 0.8, GREY);
+  head.position.set(1.3, 0.1, 0);
+  g.add(head);
+  // Eyes
+  const eyeL = makeSphere(0.08, JOINT_MAT);
+  eyeL.position.set(1.66, 0.12, 0.2);
+  const eyeR = makeSphere(0.08, JOINT_MAT);
+  eyeR.position.set(1.66, 0.12, -0.2);
+  g.add(eyeL, eyeR);
+
+  // Sensor dome on back
+  const dome = makeSphere(0.22, PURPLE, 12);
+  dome.position.set(0, 0.42, 0);
+  g.add(dome);
+
+  // 4 Legs — each: hip pivot → upper leg → knee → lower leg → foot
+  const legDefs = [
+    { side: 1, front: 1 },   // FL
+    { side: -1, front: 1 },  // FR
+    { side: 1, front: -1 },  // RL
+    { side: -1, front: -1 }, // RR
   ];
-  let t=0;
 
-  function drawJoint(x,y,r) {
-    rc.beginPath(); rc.arc(x,y,r,0,Math.PI*2); rc.fillStyle='#1a2235'; rc.fill();
-    rc.strokeStyle='#00e5ff'; rc.lineWidth=1.5; rc.stroke();
-    rc.beginPath(); rc.arc(x,y,r*0.35,0,Math.PI*2); rc.fillStyle='#00e5ff'; rc.fill();
-  }
-  function drawLink(x1,y1,x2,y2,w) {
-    const angle=Math.atan2(y2-y1,x2-x1), hw=w/2, len=Math.hypot(x2-x1,y2-y1), r=hw;
-    rc.save(); rc.translate(x1,y1); rc.rotate(angle);
-    rc.beginPath();
-    rc.moveTo(r,-hw); rc.lineTo(len-r,-hw); rc.arcTo(len,-hw,len,hw,r);
-    rc.lineTo(len,hw); rc.lineTo(r,hw); rc.arcTo(0,hw,0,-hw,r); rc.closePath();
-    rc.fillStyle='#111827'; rc.fill(); rc.strokeStyle='rgba(0,229,255,0.35)'; rc.lineWidth=1; rc.stroke();
-    rc.restore();
-  }
-  function drawGripper(x,y,angle) {
-    rc.save(); rc.translate(x,y); rc.rotate(angle);
-    rc.strokeStyle='#00e5ff'; rc.lineWidth=2.5; rc.lineCap='round';
-    rc.beginPath(); rc.moveTo(0,0); rc.lineTo(-10,-14); rc.stroke();
-    rc.beginPath(); rc.moveTo(0,0); rc.lineTo(10,-14); rc.stroke();
-    rc.beginPath(); rc.arc(-10,-14,3,0,Math.PI*2); rc.fillStyle='#00e5ff'; rc.fill();
-    rc.beginPath(); rc.arc(10,-14,3,0,Math.PI*2); rc.fill();
-    rc.restore();
-  }
-  function drawBase(x,y) {
-    rc.beginPath(); rc.moveTo(x-38,y); rc.lineTo(x+38,y); rc.lineTo(x+26,y+22); rc.lineTo(x-26,y+22); rc.closePath();
-    rc.fillStyle='#1a2235'; rc.fill(); rc.strokeStyle='#00e5ff'; rc.lineWidth=1.5; rc.stroke();
-    rc.beginPath(); rc.ellipse(x,y,38,9,0,0,Math.PI*2); rc.fillStyle='#111827'; rc.fill(); rc.strokeStyle='#00e5ff'; rc.stroke();
-  }
-  (function armLoop() {
-    rc.clearRect(0,0,420,420); t++;
-    let x=CX, y=CY, cumA=0;
-    const joints=[{x,y}];
-    for (let i=0; i<segs.length; i++) {
-      const s=segs[i], a=s.a+Math.sin(t*s.sp+s.ph)*s.amp;
-      cumA+=a; x+=Math.cos(cumA)*s.len; y+=Math.sin(cumA)*s.len;
-      joints.push({x,y,cumA});
-    }
-    // workspace hint
-    rc.beginPath(); rc.arc(CX,CY,220,Math.PI*1.1,Math.PI*1.9); rc.strokeStyle='rgba(0,229,255,0.05)'; rc.lineWidth=1; rc.stroke();
-    // ground
-    rc.beginPath(); rc.moveTo(CX-80,CY+22); rc.lineTo(CX+80,CY+22); rc.strokeStyle='rgba(0,229,255,0.15)'; rc.lineWidth=1; rc.stroke();
-    drawBase(CX,CY);
-    const ws=[18,14,10,8];
-    for (let i=0; i<joints.length-1; i++) drawLink(joints[i].x,joints[i].y,joints[i+1].x,joints[i+1].y,ws[i]);
-    const js=[14,11,9,7,6];
-    for (let i=1; i<joints.length; i++) drawJoint(joints[i].x,joints[i].y,js[i]);
-    drawJoint(CX,CY,14);
-    const last=joints[joints.length-1];
-    drawGripper(last.x,last.y,last.cumA);
-    // EE glow
-    const g=rc.createRadialGradient(last.x,last.y,0,last.x,last.y,28);
-    g.addColorStop(0,'rgba(0,229,255,0.25)'); g.addColorStop(1,'rgba(0,229,255,0)');
-    rc.beginPath(); rc.arc(last.x,last.y,28,0,Math.PI*2); rc.fillStyle=g; rc.fill();
-    // EE dot
-    rc.beginPath(); rc.arc(last.x,last.y,5,0,Math.PI*2); rc.fillStyle='rgba(0,229,255,0.8)'; rc.fill();
-    requestAnimationFrame(armLoop);
-  })();
+  g.legs = [];
 
-  // Mouse parallax on hero robot
-  document.addEventListener('mousemove', (e) => {
-    const r = document.querySelector('.hero-robot');
-    if (r) { const dx=(e.clientX/window.innerWidth-0.5)*14, dy=(e.clientY/window.innerHeight-0.5)*10; r.style.transform=`translate(${dx}px,${dy}px)`; }
+  legDefs.forEach(({ side, front }) => {
+    const leg = new THREE.Group();
+
+    // Hip joint
+    const hip = makeSphere(0.14, JOINT_MAT);
+    leg.add(hip);
+
+    // Upper leg
+    const upper = new THREE.Group();
+    const upperMesh = makeCylinder(0.08, 0.1, 0.7, DARK);
+    upperMesh.position.y = -0.35;
+    upper.add(upperMesh);
+    const kneeSphere = makeSphere(0.12, JOINT_MAT);
+    kneeSphere.position.y = -0.7;
+    upper.add(kneeSphere);
+    leg.add(upper);
+
+    // Lower leg
+    const lower = new THREE.Group();
+    lower.position.y = -0.7;
+    const lowerMesh = makeCylinder(0.06, 0.08, 0.65, GREY);
+    lowerMesh.position.y = -0.325;
+    lower.add(lowerMesh);
+    upper.add(lower);
+
+    // Foot
+    const foot = makeBox(0.18, 0.08, 0.22, CYAN);
+    foot.position.y = -0.68;
+    lower.add(foot);
+
+    leg.position.set(front * 0.85, -0.2, side * 0.65);
+    g.add(leg);
+    g.legs.push({ leg, upper, lower, front, side, phase: (front === 1 ? 0 : Math.PI) + (side === 1 ? 0 : Math.PI/2) });
   });
+
+  // Tail
+  const tail = makeCylinder(0.04, 0.07, 0.6, GREY);
+  tail.rotation.z = Math.PI/3;
+  tail.position.set(-1.3, 0.1, 0);
+  g.add(tail);
+
+  return g;
+}
+
+function animateQuadruped(g, t) {
+  // Body bobbing
+  g.position.y = Math.sin(t * 2.5) * 0.06 - 0.3;
+  g.rotation.z = Math.sin(t * 2.5) * 0.025;
+  g.rotation.x = Math.sin(t * 5) * 0.01;
+
+  // Slow walk rotation
+  g.rotation.y = t * 0.25;
+
+  // Leg gait (trot)
+  g.legs.forEach(({ leg, upper, lower, phase }) => {
+    const a = t * 3 + phase;
+    // Hip swing
+    leg.rotation.x = Math.sin(a) * 0.35;
+    // Knee flex
+    upper.rotation.x = -0.3 + Math.max(0, Math.sin(a)) * 0.6;
+    // Lower leg
+    lower.rotation.x = 0.2 - Math.max(0, Math.sin(a + 0.3)) * 0.5;
+  });
+}
+
+// ══════════════════════════════════════════════
+//  6-DOF MANIPULATOR
+// ══════════════════════════════════════════════
+function buildManipulator() {
+  const g = new THREE.Group();
+
+  // Base plate
+  const base = makeCylinder(0.55, 0.65, 0.18, DARK, 24);
+  base.position.y = -1.4;
+  g.add(base);
+  const baseRing = makeCylinder(0.6, 0.6, 0.05, JOINT_MAT, 24);
+  baseRing.position.y = -1.32;
+  g.add(baseRing);
+
+  // Joint 1 — waist rotation group
+  const j1 = new THREE.Group();
+  j1.position.y = -1.3;
+
+  const link1Body = makeCylinder(0.14, 0.18, 0.4, GREY, 12);
+  link1Body.position.y = 0.2;
+  j1.add(link1Body);
+
+  // Joint 2
+  const j2 = new THREE.Group();
+  j2.position.y = 0.4;
+  const j2Sphere = makeSphere(0.18, JOINT_MAT);
+  j2.add(j2Sphere);
+
+  // Link 2 — shoulder
+  const link2 = new THREE.Group();
+  const link2Body = makeCylinder(0.1, 0.13, 0.85, DARK, 10);
+  link2Body.position.y = 0.425;
+  link2Body.castShadow = true;
+  link2.add(link2Body);
+
+  // Joint 3
+  const j3 = new THREE.Group();
+  j3.position.y = 0.85;
+  const j3Sphere = makeSphere(0.14, JOINT_MAT);
+  j3.add(j3Sphere);
+
+  // Link 3 — elbow
+  const link3 = new THREE.Group();
+  const link3Body = makeCylinder(0.08, 0.1, 0.65, GREY, 10);
+  link3Body.position.y = 0.325;
+  link3.add(link3Body);
+
+  // Joint 4
+  const j4 = new THREE.Group();
+  j4.position.y = 0.65;
+  const j4Sphere = makeSphere(0.11, PURPLE);
+  j4.add(j4Sphere);
+
+  // Link 4 — wrist
+  const link4 = new THREE.Group();
+  const link4Body = makeCylinder(0.065, 0.08, 0.45, DARK, 8);
+  link4Body.position.y = 0.225;
+  link4.add(link4Body);
+
+  // Joint 5
+  const j5 = new THREE.Group();
+  j5.position.y = 0.45;
+  const j5Sphere = makeSphere(0.09, JOINT_MAT);
+  j5.add(j5Sphere);
+
+  // Link 5 — wrist roll
+  const link5 = new THREE.Group();
+  const link5Body = makeCylinder(0.05, 0.065, 0.28, GREY, 8);
+  link5Body.position.y = 0.14;
+  link5.add(link5Body);
+
+  // Joint 6 — end effector
+  const j6 = new THREE.Group();
+  j6.position.y = 0.28;
+
+  // Gripper
+  const gripBase = makeCylinder(0.09, 0.09, 0.06, DARK, 8);
+  j6.add(gripBase);
+  const finger1 = makeBox(0.04, 0.22, 0.04, CYAN);
+  finger1.position.set(0.08, 0.13, 0);
+  const finger2 = makeBox(0.04, 0.22, 0.04, CYAN);
+  finger2.position.set(-0.08, 0.13, 0);
+  j6.add(finger1, finger2);
+  // EE glow sphere
+  const eeGlow = makeSphere(0.05, new THREE.MeshStandardMaterial({color:0x00f0ff, emissive:0x00f0ff, emissiveIntensity:2}));
+  eeGlow.position.y = 0.26;
+  j6.add(eeGlow);
+
+  // Assemble hierarchy
+  link5.add(j6);
+  j5.add(link5);
+  link4.add(j5);
+  j4.add(link4);
+  link3.add(j4);
+  j3.add(link3);
+  link2.add(j3);
+  j2.add(link2);
+  j1.add(j2);
+  g.add(j1);
+
+  // Store joints for animation
+  g.joints = { j1, j2, link2, j3, link3, j4, link4, j5, link5, j6 };
+  g.finger1 = finger1;
+  g.finger2 = finger2;
+
+  return g;
+}
+
+function animateManipulator(g, t) {
+  const { j1, j2, link2, j3, link3, j4, link4, j5, link5, j6 } = g.joints;
+  // Waist rotation
+  j1.rotation.y = t * 0.4;
+  // Shoulder
+  link2.rotation.x = -0.6 + Math.sin(t * 0.7) * 0.5;
+  // Elbow
+  link3.rotation.x = -0.4 + Math.sin(t * 0.9 + 1) * 0.5;
+  // Wrist 1
+  link4.rotation.x = Math.sin(t * 1.2 + 2) * 0.4;
+  // Wrist 2
+  link5.rotation.z = Math.sin(t * 1.5) * 0.6;
+  // Tool roll
+  j6.rotation.y = t * 2;
+  // Gripper open/close
+  const grip = (Math.sin(t * 1.8) + 1) * 0.5;
+  g.finger1.position.x = 0.06 + grip * 0.06;
+  g.finger2.position.x = -(0.06 + grip * 0.06);
+
+  // Slow body yaw for display
+  g.rotation.y = Math.sin(t * 0.15) * 0.4;
+}
+
+// ══════════════════════════════════════════════
+//  HUMANOID
+// ══════════════════════════════════════════════
+function buildHumanoid() {
+  const g = new THREE.Group();
+
+  // ── Torso ──
+  const torso = makeBox(0.7, 1.0, 0.4, DARK);
+  torso.castShadow = true;
+  g.add(torso);
+
+  // Chest panel
+  const chest = makeBox(0.5, 0.5, 0.05, GREY);
+  chest.position.set(0, 0.1, 0.21);
+  g.add(chest);
+  const chestDot1 = makeSphere(0.07, JOINT_MAT);
+  chestDot1.position.set(-0.12, 0.12, 0.24);
+  const chestDot2 = makeSphere(0.07, PURPLE);
+  chestDot2.position.set(0.12, 0.12, 0.24);
+  const chestDot3 = makeSphere(0.06, GREEN);
+  chestDot3.position.set(0, -0.06, 0.24);
+  g.add(chestDot1, chestDot2, chestDot3);
+
+  // ── Head ──
+  const head = new THREE.Group();
+  const headMesh = makeBox(0.52, 0.52, 0.48, GREY);
+  head.add(headMesh);
+  // Eyes
+  const eyeL = makeBox(0.12, 0.06, 0.04, JOINT_MAT);
+  eyeL.position.set(-0.13, 0.08, 0.26);
+  const eyeR = makeBox(0.12, 0.06, 0.04, JOINT_MAT);
+  eyeR.position.set(0.13, 0.08, 0.26);
+  head.add(eyeL, eyeR);
+  // Mouth
+  const mouth = makeBox(0.2, 0.03, 0.04, GREEN);
+  mouth.position.set(0, -0.1, 0.26);
+  head.add(mouth);
+  // Antenna
+  const ant = makeCylinder(0.02, 0.02, 0.3, JOINT_MAT, 6);
+  ant.position.y = 0.38;
+  const antBall = makeSphere(0.05, JOINT_MAT);
+  antBall.position.y = 0.55;
+  head.add(ant, antBall);
+
+  head.position.y = 0.76;
+  g.add(head);
+  g.head = head;
+
+  // Neck
+  const neck = makeCylinder(0.1, 0.12, 0.22, DARK, 8);
+  neck.position.y = 0.6;
+  g.add(neck);
+
+  // ── Shoulders ──
+  const shoulderL = makeSphere(0.18, JOINT_MAT);
+  shoulderL.position.set(-0.5, 0.4, 0);
+  const shoulderR = makeSphere(0.18, JOINT_MAT);
+  shoulderR.position.set(0.5, 0.4, 0);
+  g.add(shoulderL, shoulderR);
+
+  // ── Arms ──
+  const armDefs = [-1, 1]; // left, right
+  g.arms = [];
+  armDefs.forEach(side => {
+    const arm = new THREE.Group();
+    arm.position.set(side * 0.5, 0.38, 0);
+
+    const upper = new THREE.Group();
+    const uMesh = makeCylinder(0.09, 0.11, 0.55, DARK, 8);
+    uMesh.position.y = -0.275;
+    upper.add(uMesh);
+
+    const elbow = makeSphere(0.1, JOINT_MAT);
+    elbow.position.y = -0.55;
+    upper.add(elbow);
+
+    const lower = new THREE.Group();
+    lower.position.y = -0.55;
+    const lMesh = makeCylinder(0.07, 0.09, 0.48, GREY, 8);
+    lMesh.position.y = -0.24;
+    lower.add(lMesh);
+
+    // Hand
+    const hand = makeBox(0.14, 0.18, 0.1, DARK);
+    hand.position.y = -0.52;
+    lower.add(hand);
+
+    upper.add(lower);
+    arm.add(upper);
+    g.add(arm);
+    g.arms.push({ arm, upper, lower, side });
+  });
+
+  // ── Hips ──
+  const hips = makeBox(0.75, 0.28, 0.38, GREY);
+  hips.position.y = -0.63;
+  g.add(hips);
+
+  // ── Legs ──
+  const legSides = [-1, 1];
+  g.legs = [];
+  legSides.forEach(side => {
+    const leg = new THREE.Group();
+    leg.position.set(side * 0.22, -0.77, 0);
+
+    const hipSphere = makeSphere(0.14, JOINT_MAT);
+    leg.add(hipSphere);
+
+    const upper = new THREE.Group();
+    const uMesh = makeCylinder(0.1, 0.13, 0.7, DARK, 8);
+    uMesh.position.y = -0.35;
+    upper.add(uMesh);
+
+    const knee = makeSphere(0.13, JOINT_MAT);
+    knee.position.y = -0.7;
+    upper.add(knee);
+
+    const lower = new THREE.Group();
+    lower.position.y = -0.7;
+    const lMesh = makeCylinder(0.07, 0.1, 0.62, GREY, 8);
+    lMesh.position.y = -0.31;
+    lower.add(lMesh);
+
+    // Foot
+    const foot = makeBox(0.22, 0.1, 0.38, DARK);
+    foot.position.set(0.04, -0.65, 0.06);
+    lower.add(foot);
+
+    upper.add(lower);
+    leg.add(upper);
+    g.add(leg);
+    g.legs.push({ leg, upper, lower, side, phase: side === -1 ? 0 : Math.PI });
+  });
+
+  return g;
+}
+
+function animateHumanoid(g, t) {
+  // Walking cycle
+  g.position.y = Math.abs(Math.sin(t * 2)) * 0.05 - 0.3;
+  g.rotation.y = t * 0.3;
+
+  // Head look
+  g.head.rotation.y = Math.sin(t * 0.6) * 0.25;
+  g.head.rotation.x = Math.sin(t * 0.4) * 0.1;
+
+  // Arms swing
+  g.arms.forEach(({ upper, lower, side, phase=0 }) => {
+    const a = t * 2 + (side === -1 ? 0 : Math.PI);
+    upper.rotation.x = Math.sin(a) * 0.45;
+    lower.rotation.x = 0.3 + Math.max(0, Math.sin(a + 0.5)) * 0.4;
+  });
+
+  // Leg walk
+  g.legs.forEach(({ leg, upper, lower, phase }) => {
+    const a = t * 2 + phase;
+    leg.rotation.x = Math.sin(a) * 0.4;
+    upper.rotation.x = -0.15 + Math.max(0, Math.sin(a)) * 0.35;
+    lower.rotation.x = 0.1 + Math.max(0, -Math.sin(a)) * 0.5;
+  });
+}
+
+// ── BUILD & SWITCH ──
+function buildRobot(type) {
+  if (robotGroup) scene.remove(robotGroup);
+  if (type === 'quadruped')  robotGroup = buildQuadruped();
+  if (type === 'manipulator') robotGroup = buildManipulator();
+  if (type === 'humanoid')   robotGroup = buildHumanoid();
+  scene.add(robotGroup);
+
+  // Camera position per robot
+  if (type === 'quadruped') { camera.position.set(0, 2.2, 6.5); camera.lookAt(0, 0, 0); }
+  if (type === 'manipulator') { camera.position.set(2, 2, 6); camera.lookAt(0, 0.5, 0); }
+  if (type === 'humanoid') { camera.position.set(0, 2, 7); camera.lookAt(0, 0.5, 0); }
+}
+
+window.switchRobot = function(type, btn) {
+  currentRobot = type;
+  document.querySelectorAll('.robot-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = { quadruped:'QUADRUPED_WALKER', manipulator:'6DOF_MANIPULATOR', humanoid:'HUMANOID_BIPED' };
+  document.getElementById('robot-label').textContent = labels[type];
+  buildRobot(type);
+};
+
+buildRobot('quadruped');
+
+// Mouse orbit
+let isDragging = false, prevX = 0, prevY = 0, camTheta = 0, camPhi = 0.35, camDist = 6.5;
+canvas3d.addEventListener('mousedown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+window.addEventListener('mouseup', () => isDragging = false);
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  camTheta -= (e.clientX - prevX) * 0.008;
+  camPhi = Math.max(0.05, Math.min(1.2, camPhi - (e.clientY - prevY) * 0.006));
+  prevX = e.clientX; prevY = e.clientY;
+});
+canvas3d.addEventListener('wheel', e => { camDist = Math.max(3, Math.min(12, camDist + e.deltaY * 0.01)); });
+
+// ── RENDER LOOP ──
+(function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  // Camera orbit
+  camera.position.x = Math.sin(camTheta) * camDist;
+  camera.position.z = Math.cos(camTheta) * camDist;
+  camera.position.y = Math.sin(camPhi) * camDist * 0.7 + 0.5;
+  camera.lookAt(0, currentRobot === 'manipulator' ? 0.5 : 0.2, 0);
+
+  // Animate lights
+  purpleLight.position.x = Math.sin(t * 0.5) * 4;
+  purpleLight.position.z = Math.cos(t * 0.5) * 4;
+  greenLight.position.x = Math.sin(t * 0.5 + Math.PI) * 3;
+  greenLight.position.z = Math.cos(t * 0.5 + Math.PI) * 3;
+
+  if (robotGroup) {
+    if (currentRobot === 'quadruped')   animateQuadruped(robotGroup, t);
+    if (currentRobot === 'manipulator') animateManipulator(robotGroup, t);
+    if (currentRobot === 'humanoid')    animateHumanoid(robotGroup, t);
+  }
+
+  renderer.render(scene, camera);
+})();
+
+// Resize
+window.addEventListener('resize', () => {
+  const w = canvas3d.clientWidth, h = canvas3d.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+});
 </script>
 </body>
 </html>
