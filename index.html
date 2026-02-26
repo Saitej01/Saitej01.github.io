@@ -18,1094 +18,516 @@
       --border: rgba(0,229,255,0.15);
       --glow: 0 0 30px rgba(0,229,255,0.15);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* Animated grid background */
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none; z-index: 0;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 4rem;
-      background: rgba(10,14,26,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
+    #particles-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5; }
 
-    .nav-logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 1rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      text-decoration: none;
-    }
-
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 4rem; background: rgba(10,14,26,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.1em; text-decoration: none; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 2px;
-      background: var(--accent);
-      transition: width 0.3s;
-    }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
     .nav-links a:hover { color: var(--accent); }
     .nav-links a:hover::after { width: 100%; }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 4rem 4rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-content { max-width: 800px; }
-
-    .hero-tag {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      background: rgba(0,229,255,0.08);
-      border: 1px solid var(--border);
-      padding: 0.4rem 1rem;
-      border-radius: 2px;
-      letter-spacing: 0.15em;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero-name {
-      font-size: clamp(3rem, 7vw, 6rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
-    .hero-name span {
-      display: block;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      margin-top: 1.5rem;
-      font-size: 1.15rem;
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 620px;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .hero-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      border-radius: 3px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-decoration: none;
-      font-weight: 700;
-      transition: all 0.25s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #0a0e1a;
-    }
-    .btn-primary:hover {
-      background: #fff;
-      box-shadow: 0 0 24px rgba(0,229,255,0.5);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-    }
-    .btn-outline:hover {
-      background: rgba(0,229,255,0.1);
-      transform: translateY(-2px);
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-top: 4rem;
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
-
+    /* HERO */
+    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; gap: 2rem; }
+    .hero-content { max-width: 620px; }
+    .hero-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); background: rgba(0,229,255,0.08); border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 2px; letter-spacing: 0.15em; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+    .hero-name { font-size: clamp(3rem, 5vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-name span { display: block; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-subtitle { margin-top: 1.5rem; font-size: 1.05rem; color: var(--muted); line-height: 1.8; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.6s 0.4s ease both; }
     .stat-item { text-align: left; }
-    .stat-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-top: 0.25rem;
-    }
+    .stat-num { font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.25rem; }
 
-    /* ── SECTIONS ── */
-    section {
-      position: relative;
-      z-index: 1;
-      padding: 6rem 4rem;
-    }
+    /* HERO ROBOT */
+    .hero-robot { display: flex; align-items: center; justify-content: center; animation: fadeUp 0.8s 0.3s ease both; position: relative; }
+    .robot-canvas-wrap { position: relative; width: 420px; height: 420px; }
+    #robot-canvas { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(0,229,255,0.3)); }
+    .robot-glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(0,229,255,0.1); animation: pulse-ring 3s ease-in-out infinite; }
+    .robot-glow-ring:nth-child(1) { inset: 10%; }
+    .robot-glow-ring:nth-child(2) { inset: 20%; animation-delay: 1s; border-color: rgba(124,58,237,0.1); }
+    .robot-glow-ring:nth-child(3) { inset: 30%; animation-delay: 2s; }
+    @keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:0.4} 50%{transform:scale(1.05);opacity:0.8} }
 
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; border-radius: 3px; font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.08em; text-decoration: none; font-weight: 700; transition: all 0.25s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #0a0e1a; }
+    .btn-primary:hover { background: #fff; box-shadow: 0 0 24px rgba(0,229,255,0.5); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: rgba(0,229,255,0.1); transform: translateY(-2px); }
 
-    .section-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      opacity: 0.6;
-    }
+    /* SECTIONS */
+    section { position: relative; z-index: 1; padding: 6rem 4rem; }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+    .section-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); opacity: 0.6; }
+    .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+    .section-line { flex: 1; height: 1px; background: var(--border); max-width: 300px; }
 
-    .section-title {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      max-width: 300px;
-    }
-
-    /* ── ABOUT ── */
+    /* ABOUT */
     #about { background: var(--surface); }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-text {
-      font-size: 1.05rem;
-      line-height: 1.9;
-      color: var(--muted);
-    }
-
-    .about-text p + p { margin-top: 1rem; }
-
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text { font-size: 1.05rem; line-height: 1.9; color: var(--muted); }
+    .about-text p+p { margin-top: 1rem; }
     .about-text strong { color: var(--text); }
-
     .about-info { display: flex; flex-direction: column; gap: 1rem; }
+    .info-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; transition: border-color 0.3s, box-shadow 0.3s; }
+    .info-item:hover { border-color: var(--accent); box-shadow: var(--glow); }
+    .info-icon { font-size: 1.25rem; width: 2rem; text-align: center; }
+    .info-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .info-value { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .info-value a { color: var(--accent); text-decoration: none; }
 
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .info-item:hover {
-      border-color: var(--accent);
-      box-shadow: var(--glow);
-    }
-
-    .info-icon {
-      font-size: 1.25rem;
-      width: 2rem;
-      text-align: center;
-    }
-
-    .info-label {
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .info-value {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .info-value a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── EDUCATION ── */
+    /* EDUCATION */
     .edu-cards { display: flex; flex-direction: column; gap: 1.25rem; }
-
-    .edu-card {
-      padding: 1.75rem 2rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 4px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .edu-card:hover {
-      transform: translateX(6px);
-      box-shadow: var(--glow);
-    }
-
-    .edu-degree {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .edu-school {
-      font-size: 0.9rem;
-      color: var(--accent);
-      margin-top: 0.25rem;
-      font-family: 'Space Mono', monospace;
-    }
-
-    .edu-meta {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 0.75rem;
-    }
-
-    .edu-year, .edu-gpa {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: 'Space Mono', monospace;
-    }
-
+    .edu-card { padding: 1.75rem 2rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; transition: transform 0.3s, box-shadow 0.3s; }
+    .edu-card:hover { transform: translateX(6px); box-shadow: var(--glow); }
+    .edu-degree { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .edu-school { font-size: 0.9rem; color: var(--accent); margin-top: 0.25rem; font-family: 'Space Mono', monospace; }
+    .edu-meta { display: flex; gap: 1.5rem; margin-top: 0.75rem; }
+    .edu-year, .edu-gpa { font-size: 0.8rem; color: var(--muted); font-family: 'Space Mono', monospace; }
     .edu-gpa { color: var(--accent3); }
+    .edu-courses { margin-top: 0.75rem; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
 
-    .edu-courses {
-      margin-top: 0.75rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ── EXPERIENCE ── */
+    /* EXPERIENCE */
     #experience { background: var(--surface); }
+    .exp-card { padding: 2rem 2.25rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; transition: border-color 0.3s, box-shadow 0.3s; }
+    .exp-card:hover { border-color: var(--accent); box-shadow: var(--glow); }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+    .exp-role { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .exp-org { font-size: 0.9rem; color: var(--accent); font-family: 'Space Mono', monospace; margin-top: 0.25rem; }
+    .exp-period { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); background: var(--surface2); padding: 0.35rem 0.75rem; border-radius: 2px; border: 1px solid var(--border); white-space: nowrap; }
+    .exp-bullets { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .exp-bullet { display: flex; gap: 0.75rem; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .exp-bullet::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 0.05rem; }
 
-    .exp-card {
-      padding: 2rem 2.25rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .exp-card:hover {
-      border-color: var(--accent);
-      box-shadow: var(--glow);
-    }
-
-    .exp-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .exp-role {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .exp-org {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-family: 'Space Mono', monospace;
-      margin-top: 0.25rem;
-    }
-
-    .exp-period {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      background: var(--surface2);
-      padding: 0.35rem 0.75rem;
-      border-radius: 2px;
-      border: 1px solid var(--border);
-      white-space: nowrap;
-    }
-
-    .exp-bullets {
-      margin-top: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .exp-bullet {
-      display: flex;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .exp-bullet::before {
-      content: '→';
-      color: var(--accent);
-      flex-shrink: 0;
-      margin-top: 0.05rem;
-    }
-
-    /* ── PROJECTS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.75rem;
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), var(--glow);
-      border-color: rgba(0,229,255,0.3);
-    }
-
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; position: relative; overflow: hidden; cursor: pointer; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), var(--glow); border-color: rgba(0,229,255,0.3); }
     .project-card:hover::before { transform: scaleX(1); }
 
-    .project-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--accent);
-      opacity: 0.5;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.75rem;
-    }
+    /* Animated mini robot on each project card */
+    .card-robot { position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
+    .project-card:hover .card-robot { opacity: 1; transform: scale(1.1); }
+    .card-robot svg { width: 100%; height: 100%; }
 
-    .project-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.4;
-    }
+    .project-num { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); opacity: 0.5; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .project-title { font-size: 1.05rem; font-weight: 700; color: var(--text); line-height: 1.4; padding-right: 3rem; }
+    .project-desc { margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+    .tag { font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.3rem 0.6rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.2); border-radius: 2px; color: var(--accent); letter-spacing: 0.05em; }
 
-    .project-desc {
-      margin-top: 0.75rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1.25rem;
-    }
-
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      padding: 0.3rem 0.6rem;
-      background: rgba(0,229,255,0.07);
-      border: 1px solid rgba(0,229,255,0.2);
-      border-radius: 2px;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-
-    /* ── SKILLS ── */
+    /* SKILLS */
     #skills { background: var(--surface); }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .skill-group {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.5rem;
-      transition: border-color 0.3s;
-    }
-
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-group { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.3s; }
     .skill-group:hover { border-color: var(--accent); }
+    .skill-group-title { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag { font-size: 0.8rem; padding: 0.35rem 0.75rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; color: var(--text); transition: background 0.2s, border-color 0.2s, color 0.2s; }
+    .skill-tag:hover { background: rgba(0,229,255,0.1); border-color: var(--accent); color: var(--accent); }
 
-    .skill-group-title {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .skill-tag {
-      font-size: 0.8rem;
-      padding: 0.35rem 0.75rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      color: var(--text);
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-
-    .skill-tag:hover {
-      background: rgba(0,229,255,0.1);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── CERTIFICATIONS ── */
-    .cert-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-
-    .cert-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      transition: border-color 0.3s;
-    }
-
+    /* CERTIFICATIONS */
+    .cert-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .cert-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; transition: border-color 0.3s; }
     .cert-item:hover { border-color: var(--accent3); }
+    .cert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; margin-top: 0.35rem; }
+    .cert-text { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
-    .cert-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent3);
-      flex-shrink: 0;
-      margin-top: 0.35rem;
-    }
-
-    .cert-text {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* ── ACTIVITIES ── */
+    /* ACTIVITIES */
     #activities { background: var(--surface); }
+    .activity-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .activity-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: transform 0.3s, border-color 0.3s; }
+    .activity-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
+    .activity-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .activity-org { font-size: 0.8rem; color: var(--accent2); font-family: 'Space Mono', monospace; margin-top: 0.25rem; }
+    .activity-date { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+    .activity-desc { margin-top: 0.75rem; font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 
-    .activity-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
+    /* CONTACT */
+    #contact { text-align: center; padding: 6rem 4rem; }
+    .contact-robot-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
+    #waving-robot { width: 150px; height: 170px; cursor: pointer; overflow: visible; }
+    .robot-float { animation: float-bot 3s ease-in-out infinite; }
+    @keyframes float-bot { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    #waving-robot:hover .arm-right { animation: wave 0.45s ease-in-out infinite alternate; transform-origin: 80px 54px; }
+    #waving-robot:hover .bot-eye { animation: blink 1.2s ease infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes wave { from{transform:rotate(-25deg)} to{transform:rotate(35deg)} }
+    @keyframes blink { 0%,85%,100%{transform:scaleY(1)} 90%{transform:scaleY(0.05)} }
 
-    .activity-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.5rem;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .activity-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent2);
-    }
-
-    .activity-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .activity-org {
-      font-size: 0.8rem;
-      color: var(--accent2);
-      font-family: 'Space Mono', monospace;
-      margin-top: 0.25rem;
-    }
-
-    .activity-date {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
-    }
-
-    .activity-desc {
-      margin-top: 0.75rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      text-align: center;
-      padding: 6rem 4rem;
-    }
-
-    .contact-tagline {
-      font-size: clamp(1.5rem, 3vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
+    .contact-tagline { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1rem; }
     .contact-tagline span { color: var(--accent); }
+    .contact-sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-    .contact-sub {
-      font-size: 1rem;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-    }
+    footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); position: relative; z-index: 1; }
 
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      border-top: 1px solid var(--border);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      section, #hero, #contact { padding: 4rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-stats { gap: 1.5rem; }
-    }
+    @media (max-width: 900px) { #hero { grid-template-columns: 1fr; } .hero-robot { display: none; } }
+    @media (max-width: 768px) { nav { padding: 1rem 1.5rem; } .nav-links { display: none; } section, #hero, #contact { padding: 4rem 1.5rem; } .about-grid { grid-template-columns: 1fr; gap: 2rem; } .hero-stats { gap: 1.5rem; } }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-logo" href="#">MST_</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<canvas id="particles-canvas"></canvas>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-content">
-      <div class="hero-tag">// Electronics & Robotics Engineer</div>
-      <h1 class="hero-name">
-        Majji
-        <span>Sai Teja</span>
-      </h1>
-      <p class="hero-subtitle">
-        Final-year ECE student & Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems using RL.
-      </p>
-      <div class="hero-links">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-outline">Get In Touch</a>
-        <a href="https://github.com/Saitej01" target="_blank" class="btn btn-outline">GitHub</a>
-        <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num">8.99</div>
-          <div class="stat-label">GPA / 10.0</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">6+</div>
-          <div class="stat-label">Projects</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">IIT</div>
-          <div class="stat-label">Mandi Intern</div>
-        </div>
-      </div>
-    </div>
-  </section>
+<nav>
+  <a class="nav-logo" href="#">MST_</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-header reveal">
-      <span class="section-num">01</span>
-      <h2 class="section-title">About Me</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>
-          I'm an <strong>Electronics & Communication Engineering</strong> final-year student at RGUKT Srikakulam with a deep focus on robotics and reinforcement learning. My work lives at the intersection of embedded systems and intelligent control.
-        </p>
-        <p>
-          Currently a <strong>Research Intern at IIT Mandi's Center for AI & Robotics Lab</strong>, where I develop RL environments for 6-DOF manipulators in Isaac Lab, formulate energy-aware reward functions, and engineer sim-to-real pipelines.
-        </p>
-        <p>
-          I'm passionate about closing the gap between simulation and physical hardware — building policies that are not just smart in sim, but reliable on real robots. From Arduino motor control to MAPPO-based dual-arm cooperation, I enjoy working across the full stack.
-        </p>
-      </div>
-      <div class="about-info reveal">
-        <div class="info-item">
-          <div class="info-icon">📍</div>
-          <div>
-            <div class="info-label">Location</div>
-            <div class="info-value">Vizianagaram, India</div>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon">🎓</div>
-          <div>
-            <div class="info-label">University</div>
-            <div class="info-value">RGUKT Srikakulam</div>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon">🔬</div>
-          <div>
-            <div class="info-label">Current Role</div>
-            <div class="info-value">Research Intern @ IIT Mandi</div>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon">✉️</div>
-          <div>
-            <div class="info-label">Email</div>
-            <div class="info-value"><a href="mailto:majjisaiteja12@gmail.com">majjisaiteja12@gmail.com</a></div>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon">📞</div>
-          <div>
-            <div class="info-label">Phone</div>
-            <div class="info-value">+91 8074260699</div>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon">💻</div>
-          <div>
-            <div class="info-label">GitHub</div>
-            <div class="info-value"><a href="https://github.com/Saitej01" target="_blank">github.com/Saitej01</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="section-header reveal">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Education</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="edu-cards">
-      <div class="edu-card reveal">
-        <div class="edu-degree">B.Tech — Electronics & Communication Engineering</div>
-        <div class="edu-school">RGUKT Srikakulam</div>
-        <div class="edu-meta">
-          <span class="edu-year">2022 – Present (4th Year)</span>
-          <span class="edu-gpa">GPA: 8.99 / 10.0</span>
-        </div>
-        <div class="edu-courses">
-          Coursework: Embedded Systems · Computational Science Using Python · Machine Learning for Engineering · Embedded Sensing & Actuation · PCB Design with CAD Software · Microprocessors & Microcontrollers
-        </div>
-      </div>
-      <div class="edu-card reveal">
-        <div class="edu-degree">Pre-University Course (PUC)</div>
-        <div class="edu-school">RGUKT Srikakulam</div>
-        <div class="edu-meta">
-          <span class="edu-year">2020 – 2022</span>
-          <span class="edu-gpa">GPA: 9.88 / 10.0</span>
-        </div>
-      </div>
-      <div class="edu-card reveal">
-        <div class="edu-degree">Secondary School Certificate (SSC)</div>
-        <div class="edu-school">Varalakshmi Stann's School</div>
-        <div class="edu-meta">
-          <span class="edu-year">2020</span>
-          <span class="edu-gpa">GPA: 9.8 / 10.0</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="section-header reveal">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Experience</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="exp-card reveal">
-      <div class="exp-header">
-        <div>
-          <div class="exp-role">Research Intern</div>
-          <div class="exp-org">Center for AI & Robotics Lab — IIT Mandi</div>
-        </div>
-        <div class="exp-period">May 2025 – Present</div>
-      </div>
-      <div class="exp-bullets">
-        <div class="exp-bullet">Developed RL environments for 6-DOF manipulators in Isaac Lab, addressing non-spherical wrist kinematics where standard analytical IK decoupling is computationally complex.</div>
-        <div class="exp-bullet">Implemented joint velocity control using PPO, formulating energy-aware reward functions to minimize oscillations and ensure smooth control transitions for physical hardware.</div>
-        <div class="exp-bullet">Engineered a Sim-to-Real pipeline by analyzing the impact of simulation frequencies and contact dynamics on policy convergence and stability.</div>
-        <div class="exp-bullet">Formulated Dual-Arm Cooperative IK using MAPPO, enforcing relative pose and antipodal constraints for synchronized end-effector alignment in collaborative manipulation tasks.</div>
-        <div class="exp-bullet">Integrated safety-critical constraints including joint limit avoidance and self-collision barriers within the continuous action space to guarantee operational safety.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-header reveal">
-      <span class="section-num">04</span>
-      <h2 class="section-title">Projects</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="projects-grid">
-
-      <div class="project-card reveal">
-        <div class="project-num">PROJECT_01</div>
-        <div class="project-title">3-DOF Spatial Robotic Manipulator: Visual Servoing</div>
-        <div class="project-desc">Control framework implementing both Image-Based (IBVS) and Position-Based Visual Servoing (PBVS) for target tracking. Used ArUco markers for real-time 4D pose estimation and the Image Jacobian to map pixel errors directly to joint velocities.</div>
-        <div class="project-tags">
-          <span class="tag">ROS2</span>
-          <span class="tag">OpenCV</span>
-          <span class="tag">IBVS</span>
-          <span class="tag">PBVS</span>
-          <span class="tag">ArUco</span>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-num">PROJECT_02</div>
-        <div class="project-title">4-DOF Robotic Arm with Bluetooth Control</div>
-        <div class="project-desc">Designed and fabricated a 4-DOF robotic arm using SG90 servo motors with wireless control via HC-05 Bluetooth module and UART protocol, enabling real-time manipulation through a smartphone interface.</div>
-        <div class="project-tags">
-          <span class="tag">Arduino</span>
-          <span class="tag">Bluetooth</span>
-          <span class="tag">UART</span>
-          <span class="tag">Servo Control</span>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-num">PROJECT_03</div>
-        <div class="project-title">RC Car — ESP8266 Wireless Control</div>
-        <div class="project-desc">Developed an RC vehicle using ESP-NOW protocol for low-latency peer-to-peer wireless communication. Implemented H-Bridge motor driver for bidirectional control with servo-actuated mechanical steering and custom joystick remote.</div>
-        <div class="project-tags">
-          <span class="tag">ESP8266</span>
-          <span class="tag">ESP-NOW</span>
-          <span class="tag">L298N</span>
-          <span class="tag">Embedded C</span>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-num">PROJECT_04</div>
-        <div class="project-title">Smart Camera System with OCR</div>
-        <div class="project-desc">Built an image-based text extraction system using a pre-trained OCR model integrated with computer vision pipelines to detect and extract characters from images including license plates and labels.</div>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">OpenCV</span>
-          <span class="tag">OCR</span>
-          <span class="tag">Computer Vision</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-header reveal">
-      <span class="section-num">05</span>
-      <h2 class="section-title">Skills</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="skills-grid">
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Programming Languages</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">C</span>
-          <span class="skill-tag">C++</span>
-          <span class="skill-tag">Assembly (8085)</span>
-          <span class="skill-tag">Assembly (8086)</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Robot Learning & Control</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Reinforcement Learning</span>
-          <span class="skill-tag">PPO</span>
-          <span class="skill-tag">MAPPO</span>
-          <span class="skill-tag">Forward Kinematics</span>
-          <span class="skill-tag">Inverse Kinematics</span>
-          <span class="skill-tag">Velocity Kinematics</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Simulation & Robotics</div>
-        <div class="skill-tags">
-          <span class="skill-tag">ROS2</span>
-          <span class="skill-tag">IsaacLab</span>
-          <span class="skill-tag">IsaacSim</span>
-          <span class="skill-tag">IsaacGym</span>
-          <span class="skill-tag">Gazebo</span>
-          <span class="skill-tag">RViz</span>
-          <span class="skill-tag">PyBullet</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Embedded Systems</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Arduino</span>
-          <span class="skill-tag">ESP32</span>
-          <span class="skill-tag">ESP8266</span>
-          <span class="skill-tag">Raspberry Pi</span>
-          <span class="skill-tag">ESP32Cam</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Deep Learning & CV</div>
-        <div class="skill-tags">
-          <span class="skill-tag">PyTorch</span>
-          <span class="skill-tag">Computer Vision</span>
-          <span class="skill-tag">OpenCV</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Software & Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Arduino IDE</span>
-          <span class="skill-tag">Fusion 360</span>
-          <span class="skill-tag">Tinkercad</span>
-          <span class="skill-tag">Wokwi</span>
-          <span class="skill-tag">Thonny</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CERTIFICATIONS -->
-  <section id="certifications">
-    <div class="section-header reveal">
-      <span class="section-num">06</span>
-      <h2 class="section-title">Courses & Certifications</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="cert-list">
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Python Programming from Basic to Advanced Level — Udemy</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Robotic Operating System with Arduino — ROS Basics (Udemy)</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Machine Learning for Engineering and Science Applications — NPTEL</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Embedded Sensing, Actuation and Interfacing Systems — NPTEL</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Electronic Systems Design: Circuits and PCB Design with CAD — NPTEL</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Introduction to Industry 4.0 and Industrial IoT — NPTEL</div></div>
-      <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">My Equation: ROBOAI — Pearl Batch</div></div>
-    </div>
-  </section>
-
-  <!-- ACTIVITIES -->
-  <section id="activities">
-    <div class="section-header reveal">
-      <span class="section-num">07</span>
-      <h2 class="section-title">Activities & Leadership</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="activity-cards">
-
-      <div class="activity-card reveal">
-        <div class="activity-title">🏆 Arduinothon — 1st Place</div>
-        <div class="activity-org">Techniverse, RGUKT Srikakulam</div>
-        <div class="activity-desc">Competed in the Arduinothon event and secured first place.</div>
-      </div>
-
-      <div class="activity-card reveal">
-        <div class="activity-title">Vice Leader — Robotics Club</div>
-        <div class="activity-org">RGUKT Srikakulam</div>
-        <div class="activity-desc">Led club activities, organized workshops, and mentored peers in embedded systems and robotics.</div>
-      </div>
-
-      <div class="activity-card reveal">
-        <div class="activity-title">Student Instructor — IoT & Sensors</div>
-        <div class="activity-org">RGUKT Srikakulam</div>
-        <div class="activity-date">February 2024</div>
-        <div class="activity-desc">Conducted a week-long training on IoT and sensor technologies. Designed hands-on activities and assisted peers in troubleshooting hardware and code.</div>
-      </div>
-
-      <div class="activity-card reveal">
-        <div class="activity-title">Embedded Systems & IoT Workshop</div>
-        <div class="activity-org">RGUKT Srikakulam</div>
-        <div class="activity-date">January 2025</div>
-        <div class="activity-desc">Conducted hands-on workshop on Embedded Systems and IoT. Assembled a robotic arm and integrated Bluetooth-based control, guiding participants through programming and wireless communication.</div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-tagline reveal">Let's build something <span>real</span> together.</div>
-    <p class="contact-sub reveal">Open to research collaborations, internships, and full-time roles in robotics & RL.</p>
-    <div class="contact-links reveal">
-      <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-primary">✉ Email Me</a>
-      <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">// Electronics & Robotics Engineer</div>
+    <h1 class="hero-name">Majji<span>Sai Teja</span></h1>
+    <p class="hero-subtitle">Final-year ECE student & Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems using RL.</p>
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-outline">Get In Touch</a>
       <a href="https://github.com/Saitej01" target="_blank" class="btn btn-outline">GitHub</a>
+      <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
     </div>
-  </section>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">8.99</div><div class="stat-label">GPA / 10.0</div></div>
+      <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
+      <div class="stat-item"><div class="stat-num">IIT</div><div class="stat-label">Mandi Intern</div></div>
+    </div>
+  </div>
 
-  <footer>
-    <p>Built by Majji Sai Teja · <span id="year"></span></p>
-  </footer>
+  <div class="hero-robot">
+    <div class="robot-canvas-wrap">
+      <div class="robot-glow-ring"></div>
+      <div class="robot-glow-ring"></div>
+      <div class="robot-glow-ring"></div>
+      <canvas id="robot-canvas" width="420" height="420"></canvas>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // Set year
-    document.getElementById('year').textContent = new Date().getFullYear();
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal"><span class="section-num">01</span><h2 class="section-title">About Me</h2><div class="section-line"></div></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm an <strong>Electronics & Communication Engineering</strong> final-year student at RGUKT Srikakulam with a deep focus on robotics and reinforcement learning. My work lives at the intersection of embedded systems and intelligent control.</p>
+      <p>Currently a <strong>Research Intern at IIT Mandi's Center for AI & Robotics Lab</strong>, where I develop RL environments for 6-DOF manipulators in Isaac Lab, formulate energy-aware reward functions, and engineer sim-to-real pipelines.</p>
+      <p>I'm passionate about closing the gap between simulation and physical hardware — building policies that are not just smart in sim, but reliable on real robots. From Arduino motor control to MAPPO-based dual-arm cooperation, I enjoy working across the full stack.</p>
+    </div>
+    <div class="about-info reveal">
+      <div class="info-item"><div class="info-icon">📍</div><div><div class="info-label">Location</div><div class="info-value">Vizianagaram, India</div></div></div>
+      <div class="info-item"><div class="info-icon">🎓</div><div><div class="info-label">University</div><div class="info-value">RGUKT Srikakulam</div></div></div>
+      <div class="info-item"><div class="info-icon">🔬</div><div><div class="info-label">Current Role</div><div class="info-value">Research Intern @ IIT Mandi</div></div></div>
+      <div class="info-item"><div class="info-icon">✉️</div><div><div class="info-label">Email</div><div class="info-value"><a href="mailto:majjisaiteja12@gmail.com">majjisaiteja12@gmail.com</a></div></div></div>
+      <div class="info-item"><div class="info-icon">📞</div><div><div class="info-label">Phone</div><div class="info-value">+91 8074260699</div></div></div>
+      <div class="info-item"><div class="info-icon">💻</div><div><div class="info-label">GitHub</div><div class="info-value"><a href="https://github.com/Saitej01" target="_blank">github.com/Saitej01</a></div></div></div>
+    </div>
+  </div>
+</section>
 
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal"><span class="section-num">02</span><h2 class="section-title">Education</h2><div class="section-line"></div></div>
+  <div class="edu-cards">
+    <div class="edu-card reveal"><div class="edu-degree">B.Tech — Electronics & Communication Engineering</div><div class="edu-school">RGUKT Srikakulam</div><div class="edu-meta"><span class="edu-year">2022 – Present (4th Year)</span><span class="edu-gpa">GPA: 8.99 / 10.0</span></div><div class="edu-courses">Coursework: Embedded Systems · Computational Science Using Python · Machine Learning for Engineering · Embedded Sensing & Actuation · PCB Design with CAD Software · Microprocessors & Microcontrollers</div></div>
+    <div class="edu-card reveal"><div class="edu-degree">Pre-University Course (PUC)</div><div class="edu-school">RGUKT Srikakulam</div><div class="edu-meta"><span class="edu-year">2020 – 2022</span><span class="edu-gpa">GPA: 9.88 / 10.0</span></div></div>
+    <div class="edu-card reveal"><div class="edu-degree">Secondary School Certificate (SSC)</div><div class="edu-school">Varalakshmi Stann's School</div><div class="edu-meta"><span class="edu-year">2020</span><span class="edu-gpa">GPA: 9.8 / 10.0</span></div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal"><span class="section-num">03</span><h2 class="section-title">Experience</h2><div class="section-line"></div></div>
+  <div class="exp-card reveal">
+    <div class="exp-header"><div><div class="exp-role">Research Intern</div><div class="exp-org">Center for AI & Robotics Lab — IIT Mandi</div></div><div class="exp-period">May 2025 – Present</div></div>
+    <div class="exp-bullets">
+      <div class="exp-bullet">Developed RL environments for 6-DOF manipulators in Isaac Lab, addressing non-spherical wrist kinematics where standard analytical IK decoupling is computationally complex.</div>
+      <div class="exp-bullet">Implemented joint velocity control using PPO, formulating energy-aware reward functions to minimize oscillations and ensure smooth control transitions for physical hardware.</div>
+      <div class="exp-bullet">Engineered a Sim-to-Real pipeline by analyzing the impact of simulation frequencies and contact dynamics on policy convergence and stability.</div>
+      <div class="exp-bullet">Formulated Dual-Arm Cooperative IK using MAPPO, enforcing relative pose and antipodal constraints for synchronized end-effector alignment in collaborative manipulation tasks.</div>
+      <div class="exp-bullet">Integrated safety-critical constraints including joint limit avoidance and self-collision barriers within the continuous action space to guarantee operational safety.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal"><span class="section-num">04</span><h2 class="section-title">Projects</h2><div class="section-line"></div></div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#00e5ff"/><circle cx="26.5" cy="21.5" r="2.5" fill="#00e5ff"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#00e5ff" opacity="0.4"/><line x1="5" y1="20" x2="11" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="project-num">PROJECT_01</div>
+      <div class="project-title">3-DOF Spatial Robotic Manipulator: Visual Servoing</div>
+      <div class="project-desc">Control framework implementing IBVS and PBVS for target tracking. Used ArUco markers for real-time 4D pose estimation and the Image Jacobian to map pixel errors to joint velocities.</div>
+      <div class="project-tags"><span class="tag">ROS2</span><span class="tag">OpenCV</span><span class="tag">IBVS</span><span class="tag">PBVS</span><span class="tag">ArUco</span></div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#7c3aed" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#7c3aed" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#7c3aed"/><circle cx="26.5" cy="21.5" r="2.5" fill="#7c3aed"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#7c3aed" opacity="0.5"/><line x1="5" y1="20" x2="11" y2="20" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="project-num">PROJECT_02</div>
+      <div class="project-title">4-DOF Robotic Arm with Bluetooth Control</div>
+      <div class="project-desc">Designed and fabricated a 4-DOF robotic arm using SG90 servo motors with wireless control via HC-05 Bluetooth module and UART protocol, enabling real-time smartphone manipulation.</div>
+      <div class="project-tags"><span class="tag">Arduino</span><span class="tag">Bluetooth</span><span class="tag">UART</span><span class="tag">Servo Control</span></div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#10b981" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#10b981" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#10b981"/><circle cx="26.5" cy="21.5" r="2.5" fill="#10b981"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#10b981" opacity="0.5"/><line x1="5" y1="20" x2="11" y2="20" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="project-num">PROJECT_03</div>
+      <div class="project-title">RC Car — ESP8266 Wireless Control</div>
+      <div class="project-desc">Developed an RC vehicle using ESP-NOW protocol for low-latency peer-to-peer wireless communication with H-Bridge motor driver and servo-actuated mechanical steering.</div>
+      <div class="project-tags"><span class="tag">ESP8266</span><span class="tag">ESP-NOW</span><span class="tag">L298N</span><span class="tag">Embedded C</span></div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-robot"><svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="15" width="22" height="17" rx="4" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><rect x="16" y="10" width="12" height="7" rx="3" fill="#111827" stroke="#00e5ff" stroke-width="1.5"/><circle cx="17.5" cy="21.5" r="2.5" fill="#00e5ff"/><circle cx="26.5" cy="21.5" r="2.5" fill="#00e5ff"/><rect x="18" y="26" width="8" height="3" rx="1.5" fill="#00e5ff" opacity="0.4"/><line x1="5" y1="20" x2="11" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="20" x2="39" y2="20" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="17" y1="32" x2="17" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/><line x1="27" y1="32" x2="27" y2="40" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="project-num">PROJECT_04</div>
+      <div class="project-title">Smart Camera System with OCR</div>
+      <div class="project-desc">Built an image-based text extraction system using a pre-trained OCR model with computer vision pipelines to detect characters from images including license plates and labels.</div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">OCR</span><span class="tag">Computer Vision</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal"><span class="section-num">05</span><h2 class="section-title">Skills</h2><div class="section-line"></div></div>
+  <div class="skills-grid">
+    <div class="skill-group reveal"><div class="skill-group-title">Programming Languages</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">Assembly (8085)</span><span class="skill-tag">Assembly (8086)</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Robot Learning & Control</div><div class="skill-tags"><span class="skill-tag">Reinforcement Learning</span><span class="skill-tag">PPO</span><span class="skill-tag">MAPPO</span><span class="skill-tag">Forward Kinematics</span><span class="skill-tag">Inverse Kinematics</span><span class="skill-tag">Velocity Kinematics</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Simulation & Robotics</div><div class="skill-tags"><span class="skill-tag">ROS2</span><span class="skill-tag">IsaacLab</span><span class="skill-tag">IsaacSim</span><span class="skill-tag">IsaacGym</span><span class="skill-tag">Gazebo</span><span class="skill-tag">RViz</span><span class="skill-tag">PyBullet</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Embedded Systems</div><div class="skill-tags"><span class="skill-tag">Arduino</span><span class="skill-tag">ESP32</span><span class="skill-tag">ESP8266</span><span class="skill-tag">Raspberry Pi</span><span class="skill-tag">ESP32Cam</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Deep Learning & CV</div><div class="skill-tags"><span class="skill-tag">PyTorch</span><span class="skill-tag">Computer Vision</span><span class="skill-tag">OpenCV</span></div></div>
+    <div class="skill-group reveal"><div class="skill-group-title">Software & Tools</div><div class="skill-tags"><span class="skill-tag">Arduino IDE</span><span class="skill-tag">Fusion 360</span><span class="skill-tag">Tinkercad</span><span class="skill-tag">Wokwi</span><span class="skill-tag">Thonny</span></div></div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header reveal"><span class="section-num">06</span><h2 class="section-title">Courses & Certifications</h2><div class="section-line"></div></div>
+  <div class="cert-list">
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Python Programming from Basic to Advanced Level — Udemy</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Robotic Operating System with Arduino — ROS Basics (Udemy)</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Machine Learning for Engineering and Science Applications — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Embedded Sensing, Actuation and Interfacing Systems — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Electronic Systems Design: Circuits and PCB Design with CAD — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">Introduction to Industry 4.0 and Industrial IoT — NPTEL</div></div>
+    <div class="cert-item reveal"><div class="cert-dot"></div><div class="cert-text">My Equation: ROBOAI — Pearl Batch</div></div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <div class="section-header reveal"><span class="section-num">07</span><h2 class="section-title">Activities & Leadership</h2><div class="section-line"></div></div>
+  <div class="activity-cards">
+    <div class="activity-card reveal"><div class="activity-title">🏆 Arduinothon — 1st Place</div><div class="activity-org">Techniverse, RGUKT Srikakulam</div><div class="activity-desc">Competed in the Arduinothon event and secured first place.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Vice Leader — Robotics Club</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-desc">Led club activities, organized workshops, and mentored peers in embedded systems and robotics.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Student Instructor — IoT & Sensors</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">February 2024</div><div class="activity-desc">Conducted a week-long training on IoT and sensor technologies with hands-on activities.</div></div>
+    <div class="activity-card reveal"><div class="activity-title">Embedded Systems & IoT Workshop</div><div class="activity-org">RGUKT Srikakulam</div><div class="activity-date">January 2025</div><div class="activity-desc">Conducted hands-on workshop on Embedded Systems and IoT. Assembled a robotic arm with Bluetooth-based control.</div></div>
+  </div>
+</section>
+
+<!-- CONTACT with waving robot -->
+<section id="contact">
+  <div class="contact-robot-wrap">
+    <svg id="waving-robot" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="robot-float">
+      <!-- Antenna -->
+      <line x1="50" y1="10" x2="50" y2="3" stroke="#00e5ff" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="50" cy="2" r="2.5" fill="#00e5ff"/>
+      <!-- Head -->
+      <rect x="28" y="10" width="44" height="34" rx="9" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+      <!-- Eyes -->
+      <rect class="bot-eye" x="34" y="20" width="12" height="8" rx="3" fill="#00e5ff"/>
+      <rect class="bot-eye" x="54" y="20" width="12" height="8" rx="3" fill="#00e5ff"/>
+      <!-- Mouth -->
+      <rect x="36" y="33" width="28" height="5" rx="2.5" fill="#00e5ff" opacity="0.35"/>
+      <!-- Body -->
+      <rect x="20" y="48" width="60" height="48" rx="10" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+      <!-- Chest display -->
+      <rect x="32" y="57" width="36" height="22" rx="5" fill="#0a0e1a" stroke="rgba(0,229,255,0.25)" stroke-width="1"/>
+      <circle cx="41" cy="68" r="5" fill="#7c3aed" opacity="0.85"/>
+      <circle cx="50" cy="68" r="5" fill="#00e5ff" opacity="0.85"/>
+      <circle cx="59" cy="68" r="5" fill="#10b981" opacity="0.85"/>
+      <!-- Left arm (static) -->
+      <rect x="5" y="50" width="13" height="32" rx="6.5" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+      <!-- Right arm (waves on hover) -->
+      <rect class="arm-right" x="82" y="50" width="13" height="32" rx="6.5" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+      <!-- Legs -->
+      <rect x="28" y="98" width="16" height="26" rx="7" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+      <rect x="56" y="98" width="16" height="26" rx="7" fill="#1a2235" stroke="#00e5ff" stroke-width="1.8"/>
+    </svg>
+  </div>
+  <div class="contact-tagline reveal">Let's build something <span>real</span> together.</div>
+  <p class="contact-sub reveal">Open to research collaborations, internships, and full-time roles in robotics & RL.<br><small style="opacity:0.5;font-size:0.8rem">↑ Hover the robot!</small></p>
+  <div class="contact-links reveal">
+    <a href="mailto:majjisaiteja12@gmail.com" class="btn btn-primary">✉ Email Me</a>
+    <a href="https://linkedin.com/in/SaiTejaMajji" target="_blank" class="btn btn-outline">LinkedIn</a>
+    <a href="https://github.com/Saitej01" target="_blank" class="btn btn-outline">GitHub</a>
+  </div>
+</section>
+
+<footer><p>Built by Majji Sai Teja · <span id="year"></span></p></footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); } });
+  }, { threshold: 0.1 }).observe ? (() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); } });
     }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  })() : reveals.forEach(el => el.classList.add('visible'));
 
-    reveals.forEach(el => observer.observe(el));
-  </script>
+  // ── FLOATING PARTICLES ──
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
+  const PCOLS = ['rgba(0,229,255,', 'rgba(124,58,237,', 'rgba(16,185,129,'];
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : (Math.random() > 0.5 ? -20 : canvas.height + 20);
+      this.size = Math.random() * 5 + 2;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.alpha = Math.random() * 0.4 + 0.1;
+      this.type = ['dot','ring','cross','gear'][Math.floor(Math.random()*4)];
+      this.col = PCOLS[Math.floor(Math.random()*3)];
+      this.rot = Math.random() * Math.PI * 2;
+      this.rotV = (Math.random() - 0.5) * 0.025;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy; this.rot += this.rotV;
+      if (this.x < -30 || this.x > canvas.width+30 || this.y < -30 || this.y > canvas.height+30) this.reset(false);
+    }
+    draw() {
+      ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
+      const c = this.col + this.alpha + ')';
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 1;
+      if (this.type === 'dot') { ctx.beginPath(); ctx.arc(0,0,this.size*0.5,0,Math.PI*2); ctx.fill(); }
+      else if (this.type === 'ring') { ctx.beginPath(); ctx.arc(0,0,this.size,0,Math.PI*2); ctx.stroke(); }
+      else if (this.type === 'cross') { const s=this.size; ctx.beginPath(); ctx.moveTo(-s,0); ctx.lineTo(s,0); ctx.moveTo(0,-s); ctx.lineTo(0,s); ctx.stroke(); }
+      else {
+        const r=this.size, t=6, ir=r*0.6;
+        ctx.beginPath();
+        for (let i=0; i<t*2; i++) { const a=(i/(t*2))*Math.PI*2, rad=i%2===0?r:ir; i===0?ctx.moveTo(Math.cos(a)*rad,Math.sin(a)*rad):ctx.lineTo(Math.cos(a)*rad,Math.sin(a)*rad); }
+        ctx.closePath(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0,0,ir*0.4,0,Math.PI*2); ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+  const particles = Array.from({length:80}, () => new Particle());
+  (function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(loop); })();
+
+  // ── HERO ROBOT ARM ──
+  const ac = document.getElementById('robot-canvas');
+  const rc = ac.getContext('2d');
+  const CX=210, CY=300;
+  const segs = [
+    {len:90, a:-Math.PI/2, sp:0.008, amp:0.35, ph:0},
+    {len:75, a:-Math.PI/4, sp:0.012, amp:0.45, ph:1.2},
+    {len:55, a: Math.PI/6, sp:0.015, amp:0.4,  ph:2.4},
+    {len:35, a: Math.PI/8, sp:0.02,  amp:0.3,  ph:3.6},
+  ];
+  let t=0;
+
+  function drawJoint(x,y,r) {
+    rc.beginPath(); rc.arc(x,y,r,0,Math.PI*2); rc.fillStyle='#1a2235'; rc.fill();
+    rc.strokeStyle='#00e5ff'; rc.lineWidth=1.5; rc.stroke();
+    rc.beginPath(); rc.arc(x,y,r*0.35,0,Math.PI*2); rc.fillStyle='#00e5ff'; rc.fill();
+  }
+  function drawLink(x1,y1,x2,y2,w) {
+    const angle=Math.atan2(y2-y1,x2-x1), hw=w/2, len=Math.hypot(x2-x1,y2-y1), r=hw;
+    rc.save(); rc.translate(x1,y1); rc.rotate(angle);
+    rc.beginPath();
+    rc.moveTo(r,-hw); rc.lineTo(len-r,-hw); rc.arcTo(len,-hw,len,hw,r);
+    rc.lineTo(len,hw); rc.lineTo(r,hw); rc.arcTo(0,hw,0,-hw,r); rc.closePath();
+    rc.fillStyle='#111827'; rc.fill(); rc.strokeStyle='rgba(0,229,255,0.35)'; rc.lineWidth=1; rc.stroke();
+    rc.restore();
+  }
+  function drawGripper(x,y,angle) {
+    rc.save(); rc.translate(x,y); rc.rotate(angle);
+    rc.strokeStyle='#00e5ff'; rc.lineWidth=2.5; rc.lineCap='round';
+    rc.beginPath(); rc.moveTo(0,0); rc.lineTo(-10,-14); rc.stroke();
+    rc.beginPath(); rc.moveTo(0,0); rc.lineTo(10,-14); rc.stroke();
+    rc.beginPath(); rc.arc(-10,-14,3,0,Math.PI*2); rc.fillStyle='#00e5ff'; rc.fill();
+    rc.beginPath(); rc.arc(10,-14,3,0,Math.PI*2); rc.fill();
+    rc.restore();
+  }
+  function drawBase(x,y) {
+    rc.beginPath(); rc.moveTo(x-38,y); rc.lineTo(x+38,y); rc.lineTo(x+26,y+22); rc.lineTo(x-26,y+22); rc.closePath();
+    rc.fillStyle='#1a2235'; rc.fill(); rc.strokeStyle='#00e5ff'; rc.lineWidth=1.5; rc.stroke();
+    rc.beginPath(); rc.ellipse(x,y,38,9,0,0,Math.PI*2); rc.fillStyle='#111827'; rc.fill(); rc.strokeStyle='#00e5ff'; rc.stroke();
+  }
+  (function armLoop() {
+    rc.clearRect(0,0,420,420); t++;
+    let x=CX, y=CY, cumA=0;
+    const joints=[{x,y}];
+    for (let i=0; i<segs.length; i++) {
+      const s=segs[i], a=s.a+Math.sin(t*s.sp+s.ph)*s.amp;
+      cumA+=a; x+=Math.cos(cumA)*s.len; y+=Math.sin(cumA)*s.len;
+      joints.push({x,y,cumA});
+    }
+    // workspace hint
+    rc.beginPath(); rc.arc(CX,CY,220,Math.PI*1.1,Math.PI*1.9); rc.strokeStyle='rgba(0,229,255,0.05)'; rc.lineWidth=1; rc.stroke();
+    // ground
+    rc.beginPath(); rc.moveTo(CX-80,CY+22); rc.lineTo(CX+80,CY+22); rc.strokeStyle='rgba(0,229,255,0.15)'; rc.lineWidth=1; rc.stroke();
+    drawBase(CX,CY);
+    const ws=[18,14,10,8];
+    for (let i=0; i<joints.length-1; i++) drawLink(joints[i].x,joints[i].y,joints[i+1].x,joints[i+1].y,ws[i]);
+    const js=[14,11,9,7,6];
+    for (let i=1; i<joints.length; i++) drawJoint(joints[i].x,joints[i].y,js[i]);
+    drawJoint(CX,CY,14);
+    const last=joints[joints.length-1];
+    drawGripper(last.x,last.y,last.cumA);
+    // EE glow
+    const g=rc.createRadialGradient(last.x,last.y,0,last.x,last.y,28);
+    g.addColorStop(0,'rgba(0,229,255,0.25)'); g.addColorStop(1,'rgba(0,229,255,0)');
+    rc.beginPath(); rc.arc(last.x,last.y,28,0,Math.PI*2); rc.fillStyle=g; rc.fill();
+    // EE dot
+    rc.beginPath(); rc.arc(last.x,last.y,5,0,Math.PI*2); rc.fillStyle='rgba(0,229,255,0.8)'; rc.fill();
+    requestAnimationFrame(armLoop);
+  })();
+
+  // Mouse parallax on hero robot
+  document.addEventListener('mousemove', (e) => {
+    const r = document.querySelector('.hero-robot');
+    if (r) { const dx=(e.clientX/window.innerWidth-0.5)*14, dy=(e.clientY/window.innerHeight-0.5)*10; r.style.transform=`translate(${dx}px,${dy}px)`; }
+  });
+</script>
 </body>
 </html>
