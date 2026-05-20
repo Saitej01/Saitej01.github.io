@@ -479,9 +479,10 @@
 
       <!-- PROJECT 4: 4-DOF Robotic Arm -->
       <div class="project-card">
-        <img class="proj-thumb" src="photos/4dof.mp4"
-          onerror="this.replaceWith(projPlaceholder('var(--accent2)','🦾','4-DOF Robotic Arm'))"
-          alt="4-DOF Robotic Arm">
+        <video class="proj-thumb" src="videos/4dof.mp4" muted loop playsinline
+          onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+          onerror="this.replaceWith(projPlaceholder('var(--accent2)','🤖','4 DOF Robotic Arm'))">
+        </video>
         <div class="proj-body">
           <div class="proj-sub">Embedded Systems · Arduino</div>
           <div class="proj-title">4-DOF Robotic Arm — Bluetooth Control</div>
