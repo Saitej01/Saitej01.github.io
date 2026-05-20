@@ -130,6 +130,12 @@
     .carousel-nav{display:flex;gap:.6rem;margin-top:.8rem}
     .cbtn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
     .cbtn:hover{border-color:var(--accent);color:var(--accent)}
+    /* IIT Mandi side-by-side large videos */
+    .iit-videos-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem}
+    .iit-video-item video{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;border:1px solid var(--border);background:#000;display:block}
+    .iit-video-item video:hover{border-color:rgba(92,244,160,.4)}
+    @media(max-width:768px){.iit-videos-grid{grid-template-columns:1fr}}
+
     .work-summary{margin-top:2rem;color:var(--muted);line-height:1.8}
     .work-summary strong{color:var(--text)}
     .work-bullets{list-style:none;margin-top:1rem}
@@ -174,6 +180,8 @@
     .proj-tag{background:rgba(74,222,255,.08);border:1px solid rgba(74,222,255,.15);color:var(--accent2);font-size:.7rem;font-weight:500;padding:.18rem .55rem;border-radius:4px}
     .proj-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid rgba(92,244,160,.25);padding:.3rem .75rem;border-radius:5px;transition:all .2s}
     .proj-link:hover{background:rgba(92,244,160,.1);border-color:var(--accent)}
+
+    .proj-thumb-surveillance{background:linear-gradient(135deg,rgba(92,244,160,.05) 0%,rgba(74,222,255,.04) 50%,rgba(181,123,255,.06) 100%);border:1px solid rgba(92,244,160,.15)}
 
     #skills{background:var(--bg)}
     .skills-wrap{display:flex;flex-direction:column;gap:2.5rem}
@@ -235,7 +243,7 @@
 <section class="hero" id="home">
   <div class="hero-grid">
     <div>
-      <div class="hero-label">Robotics · RL · Embedded Systems</div>
+      <div class="hero-label">Robotics · RL · Control Systems</div>
       <h1 class="hero-title">Majji Sai Teja</h1>
       <div class="hero-typed-line">I build <span id="typed-text"></span><span class="typed-cursor">|</span></div>
       <p class="hero-desc">Final-year ECE student &amp; Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems.</p>
@@ -316,17 +324,17 @@
         <div class="work-badge">Research Intern — Center for AI &amp; Robotics</div>
       </div>
 
-      <div class="strip-label">Project Videos — replace these with your own recordings</div>
-      <div class="h-strip" id="vs-iit">
-        <div class="video-item">
+      <div class="strip-label">Research Project Demos</div>
+      <div class="iit-videos-grid">
+        <div class="iit-video-item">
           <video src="videos/single_arm.mp4" muted autoplay loop playsinline
-            onerror="this.replaceWith(makePlaceholder('🔄','Sim-to-Real'))"></video>
-          <div class="media-cap">Single Arm task via PPO</div>
+            onerror="this.replaceWith(makePlaceholder('🦾','Single Arm — PPO'))"></video>
+          <div class="media-cap">Single-arm 6-DOF — PPO joint velocity control</div>
         </div>
-        <div class="video-item">
+        <div class="iit-video-item">
           <video src="videos/dual_arm.mp4" muted autoplay loop playsinline
             onerror="this.replaceWith(makePlaceholder('🤝','Dual-Arm MAPPO'))"></video>
-          <div class="media-cap">Dual-arm cooperative task via MAPPO</div>
+          <div class="media-cap">Dual-arm cooperative task — MAPPO policy</div>
         </div>
       </div>
 
@@ -408,7 +416,7 @@
       <div class="project-card">
         <video class="proj-thumb" src="videos/visual_servoing.mp4" muted loop playsinline
           onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
-          onerror="this.replaceWith(projPlaceholder('var(--accent)','👁️','UR5e Visual Servoing'))">
+          onerror="this.replaceWith(projPlaceholder('var(--accent)','👁️','UR5e Visual Servoing Demo'))">
         </video>
         <div class="proj-body">
           <div class="proj-sub">6-DOF UR5e · ROS2 Jazzy · MoveIt2</div>
@@ -428,7 +436,7 @@
       <div class="project-card">
         <video class="proj-thumb" src="videos/nav2_waypoint.mp4" muted loop playsinline
           onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
-          onerror="this.replaceWith(projPlaceholder('var(--accent2)','🤖','Nav2 Navigator'))">
+          onerror="this.replaceWith(projPlaceholder('var(--accent2)','🤖','Nav2 Navigator Demo'))">
         </video>
         <div class="proj-body">
           <div class="proj-sub">ROS2 · Nav2 · TurtleBot3</div>
@@ -446,10 +454,15 @@
 
       <!-- PROJECT 3: AI Surveillance Robot -->
       <div class="project-card">
-        <video class="proj-thumb" src="videos/surveillance_robot.mp4" muted loop playsinline
-          onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
-          onerror="this.replaceWith(projPlaceholder('var(--accent3)','📡','AI Surveillance'))">
-        </video>
+        <div class="proj-thumb proj-thumb-placeholder proj-thumb-surveillance">
+          <span style="font-size:3rem;z-index:1">📡</span>
+          <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--accent);z-index:1;margin-top:.3rem">AI Surveillance Robot</span>
+          <div style="display:flex;gap:.5rem;z-index:1;margin-top:.5rem;flex-wrap:wrap;justify-content:center">
+            <span style="background:rgba(92,244,160,.1);border:1px solid rgba(92,244,160,.2);color:var(--accent);font-size:.65rem;padding:.15rem .5rem;border-radius:4px">YOLOv8</span>
+            <span style="background:rgba(74,222,255,.08);border:1px solid rgba(74,222,255,.15);color:var(--accent2);font-size:.65rem;padding:.15rem .5rem;border-radius:4px">Raspberry Pi 4</span>
+            <span style="background:rgba(181,123,255,.08);border:1px solid rgba(181,123,255,.15);color:var(--accent3);font-size:.65rem;padding:.15rem .5rem;border-radius:4px">Live Detection</span>
+          </div>
+        </div>
         <div class="proj-body">
           <div class="proj-sub">Raspberry Pi 4 · YOLOv8 · Python</div>
           <div class="proj-title">AI Surveillance Robot</div>
