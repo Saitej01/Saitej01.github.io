@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <!-- Placeholder builders must be defined BEFORE any img/video onerror fires -->
   <script>
     function makePlaceholder(emoji, label) {
       var d = document.createElement('div');
@@ -39,7 +38,6 @@
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
 
-    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:64px;background:rgba(14,14,17,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
     .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:.08em;color:var(--accent)}
     .nav-links{display:flex;gap:2rem}
@@ -48,7 +46,6 @@
     .nav-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:.4rem 1rem;border-radius:4px;font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;text-decoration:none;transition:all .2s}
     .nav-btn:hover{background:var(--accent);color:#000}
 
-    /* HERO */
     .hero{min-height:100vh;display:flex;align-items:center;padding:120px 3rem 60px;position:relative;overflow:hidden}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 70% 40%,rgba(92,244,160,.06),transparent 70%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(74,222,255,.05),transparent 70%);pointer-events:none}
     .hero-grid{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
@@ -80,14 +77,12 @@
     .orbit-center span:first-child{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent);line-height:1}
     .orbit-center span:last-child{font-size:.65rem;color:var(--muted);letter-spacing:.1em}
 
-    /* SHARED */
     section{padding:100px 3rem}
     .section-inner{max-width:1200px;margin:0 auto}
     .section-tag{font-size:.75rem;font-weight:600;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;margin-bottom:.8rem}
     .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;margin-bottom:.5rem}
     .section-sub{color:var(--muted);font-size:1rem;margin-bottom:3rem;max-width:600px}
 
-    /* ABOUT */
     #about{background:var(--bg2)}
     .about-grid{display:grid;grid-template-columns:1fr auto;gap:5rem;align-items:start}
     .about-left{display:flex;flex-direction:column;gap:2rem}
@@ -99,7 +94,6 @@
     .info-card:hover{border-color:rgba(92,244,160,.3)}
     .info-label{font-size:.7rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem}
     .info-value{font-size:.9rem;font-weight:500}
-    /* profile photo — Steven style */
     .about-photo-col{display:flex;flex-direction:column;align-items:center;gap:1.2rem;flex-shrink:0}
     .profile-photo-wrap{position:relative;width:260px;height:260px;border-radius:50%;box-shadow:0 0 0 3px var(--bg2),0 0 0 5px rgba(92,244,160,.35),0 20px 60px rgba(0,0,0,.5)}
     .profile-photo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top;display:block}
@@ -110,18 +104,13 @@
     .profile-role-tag{font-size:.75rem;color:var(--accent);font-weight:500}
     @media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:2rem}.about-photo-col{flex-direction:row;align-items:center;justify-content:flex-start}.profile-photo-wrap{width:100px;height:100px}}
 
-    /* ══ WORK — Steven style ══ */
     #work{background:var(--bg)}
     .work-card{margin-bottom:5rem}
     .work-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
     .work-org{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800}
     .work-period{color:var(--accent);font-size:.9rem;font-weight:500;margin-top:.3rem}
     .work-badge{background:rgba(92,244,160,.1);border:1px solid rgba(92,244,160,.25);color:var(--accent);font-size:.8rem;font-weight:600;padding:.4rem 1rem;border-radius:20px;white-space:nowrap;align-self:center}
-
-    /* strip label */
     .strip-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:.9rem}
-
-    /* horizontal scroll strip shared style */
     .h-strip{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.75rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
     .h-strip::-webkit-scrollbar{height:4px}
     .h-strip::-webkit-scrollbar-track{background:var(--bg3);border-radius:2px}
@@ -129,24 +118,18 @@
     .video-strip .h-strip::-webkit-scrollbar-thumb,
     #vs-iit::-webkit-scrollbar-thumb{background:var(--accent)}
     #pt-iit::-webkit-scrollbar-thumb{background:var(--accent2)}
-
-    /* video items */
     .video-item{flex:0 0 300px;scroll-snap-align:start}
     .video-item video,.video-item .vid-placeholder{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--border);background:#000;display:block;cursor:pointer}
     .vid-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:var(--bg3)}
     .video-item:hover video,.video-item:hover .vid-placeholder{border-color:rgba(92,244,160,.4)}
     .media-cap{font-size:.78rem;color:var(--muted);margin-top:.5rem;line-height:1.4}
-
-    /* photo items */
     .photo-item{flex:0 0 320px;scroll-snap-align:start}
     .photo-item img,.photo-item .img-placeholder{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block}
     .img-placeholder{background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem}
     .photo-item:hover img,.photo-item:hover .img-placeholder{border-color:rgba(74,222,255,.4)}
-
     .carousel-nav{display:flex;gap:.6rem;margin-top:.8rem}
     .cbtn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
     .cbtn:hover{border-color:var(--accent);color:var(--accent)}
-
     .work-summary{margin-top:2rem;color:var(--muted);line-height:1.8}
     .work-summary strong{color:var(--text)}
     .work-bullets{list-style:none;margin-top:1rem}
@@ -154,7 +137,6 @@
     .work-bullets li::before{content:'→';position:absolute;left:0;color:var(--accent2);font-size:.75rem;top:.05em}
     .work-divider{border:none;border-top:1px solid var(--border);margin:4rem 0 0}
 
-    /* EDUCATION */
     #education{background:var(--bg2)}
     .edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
     .edu-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2rem 1.5rem;transition:all .3s;position:relative;overflow:hidden}
@@ -166,8 +148,18 @@
     .edu-period{color:var(--muted);font-size:.78rem;margin-bottom:.8rem}
     .edu-gpa{display:inline-block;background:rgba(92,244,160,.1);border:1px solid rgba(92,244,160,.2);color:var(--accent);font-size:.78rem;font-weight:600;padding:.2rem .7rem;border-radius:20px}
 
-    /* PROJECTS — media card */
-    #projects{background:var(--bg)}
+    /* PUBLICATIONS */
+    #publications{background:var(--bg)}
+    .pub-list{display:flex;flex-direction:column;gap:1.2rem}
+    .pub-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.8rem;transition:all .2s;position:relative;overflow:hidden}
+    .pub-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:3px 0 0 3px}
+    .pub-card:hover{border-color:rgba(92,244,160,.3);transform:translateX(4px)}
+    .pub-status{display:inline-block;background:rgba(181,123,255,.1);border:1px solid rgba(181,123,255,.25);color:var(--accent3);font-size:.72rem;font-weight:600;padding:.2rem .65rem;border-radius:20px;margin-bottom:.7rem}
+    .pub-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.97rem;margin-bottom:.4rem;line-height:1.45}
+    .pub-venue{color:var(--muted);font-size:.82rem}
+    .pub-venue strong{color:var(--accent2)}
+
+    #projects{background:var(--bg2)}
     .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
     .project-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s}
     .project-card:hover{border-color:rgba(92,244,160,.3);transform:translateY(-4px)}
@@ -178,11 +170,12 @@
     .proj-sub{color:var(--accent2);font-size:.75rem;font-weight:600;letter-spacing:.08em;margin-bottom:.4rem}
     .proj-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.55rem}
     .proj-desc{color:var(--muted);font-size:.85rem;line-height:1.7;margin-bottom:.9rem}
-    .proj-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+    .proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.8rem}
     .proj-tag{background:rgba(74,222,255,.08);border:1px solid rgba(74,222,255,.15);color:var(--accent2);font-size:.7rem;font-weight:500;padding:.18rem .55rem;border-radius:4px}
+    .proj-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid rgba(92,244,160,.25);padding:.3rem .75rem;border-radius:5px;transition:all .2s}
+    .proj-link:hover{background:rgba(92,244,160,.1);border-color:var(--accent)}
 
-    /* SKILLS */
-    #skills{background:var(--bg2)}
+    #skills{background:var(--bg)}
     .skills-wrap{display:flex;flex-direction:column;gap:2.5rem}
     .sg-title{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
     .chips{display:flex;flex-wrap:wrap;gap:.6rem}
@@ -190,8 +183,7 @@
     .chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
     .chip.hl{border-color:rgba(92,244,160,.3);color:var(--accent);background:rgba(92,244,160,.06)}
 
-    /* ACTIVITIES */
-    #activities{background:var(--bg)}
+    #activities{background:var(--bg2)}
     .act-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
     .act-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;gap:1rem;transition:all .2s}
     .act-card:hover{border-color:rgba(181,123,255,.3);transform:translateY(-2px)}
@@ -200,8 +192,7 @@
     .act-org{color:var(--accent3);font-size:.82rem;margin-bottom:.4rem}
     .act-desc{color:var(--muted);font-size:.82rem;line-height:1.6}
 
-    /* CONTACT */
-    #contact{background:var(--bg2);text-align:center}
+    #contact{background:var(--bg);text-align:center}
     #contact .section-inner{display:flex;flex-direction:column;align-items:center}
     .contact-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3rem;max-width:600px;width:100%}
     .contact-tagline{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem}
@@ -211,7 +202,6 @@
     .clink:hover{border-color:var(--accent);color:var(--accent)}
 
     footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
-
     .fade-in{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
     .fade-in.visible{opacity:1;transform:translateY(0)}
 
@@ -230,10 +220,15 @@
 <nav>
   <div class="nav-logo">MST</div>
   <div class="nav-links">
-    <a href="#about">About</a><a href="#work">Work</a><a href="#education">Education</a>
-    <a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#education">Education</a>
+    <a href="#publications">Publications</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
   </div>
-  <a href="/cdn-cgi/l/email-protection#9ff2fef5f5f6ecfef6ebfaf5feaeaddff8f2fef6f3b1fcf0f2" class="nav-btn">Get In Touch</a>
+  <a href="mailto:majjisaiteja12@gmail.com" class="nav-btn">Get In Touch</a>
 </nav>
 
 <!-- HERO -->
@@ -246,11 +241,11 @@
       <p class="hero-desc">Final-year ECE student &amp; Research Intern at <strong>IIT Mandi</strong>. Building learning-based control policies for robotic manipulators — from sim-to-real transfer to cooperative dual-arm systems.</p>
       <div class="hero-cta">
         <a href="#work" class="btn-primary">View My Work</a>
-        <a href="/cdn-cgi/l/email-protection#721f1318181b01131b06171813434032151f131b1e5c111d1f" class="btn-ghost">✉ Get In Touch</a>
+        <a href="mailto:majjisaiteja12@gmail.com" class="btn-ghost">✉ Get In Touch</a>
       </div>
       <div class="hero-stats">
         <div><div class="stat-num">8.99</div><div class="stat-label">GPA / 10</div></div>
-        <div><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
+        <div><div class="stat-num">5+</div><div class="stat-label">Projects</div></div>
         <div><div class="stat-num">IIT</div><div class="stat-label">Mandi Intern</div></div>
       </div>
     </div>
@@ -271,8 +266,6 @@
     <div class="section-tag">01 — About</div>
     <h2 class="section-title">Who am I?</h2>
     <div class="about-grid fade-in">
-
-      <!-- LEFT: bio + info cards -->
       <div class="about-left">
         <div class="about-text">
           <p>I'm an <strong>Electronics &amp; Communication Engineering</strong> final-year student at RGUKT Srikakulam with a deep focus on robotics and reinforcement learning. My work lives at the intersection of embedded systems and intelligent control.</p>
@@ -288,17 +281,9 @@
           <div class="info-card"><div class="info-label">🔗 LinkedIn</div><div class="info-value"><a href="https://linkedin.com/in/SaiTejaMajji" style="color:var(--accent2);text-decoration:none">SaiTejaMajji</a></div></div>
         </div>
       </div>
-
-      <!-- RIGHT: profile photo — like Steven's -->
       <div class="about-photo-col">
         <div class="profile-photo-wrap">
-          <!--
-            ▼▼▼  Replace with your actual photo  ▼▼▼
-            <img src="photos/profile.jpg" alt="Majji Sai Teja">
-          -->
-          <img
-            src="profile_1.jpeg"
-            alt="Majji Sai Teja — placeholder, replace with your photo"
+          <img src="profile_1.jpeg" alt="Majji Sai Teja"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="profile-photo-placeholder" style="display:none">
             <svg width="64" height="64" fill="none" stroke="var(--accent)" stroke-width="1" viewBox="0 0 24 24">
@@ -311,17 +296,11 @@
         <div class="profile-name-tag">Majji Sai Teja</div>
         <div class="profile-role-tag">Robotics &amp; RL Engineer</div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════
-     WORK — Steven-style:
-     • horizontal video strip (autoplay, loop)
-     • horizontal photo carousel (scroll + arrow buttons)
-     • bullet summary
-════════════════════════════════════════ -->
+<!-- WORK -->
 <section id="work">
   <div class="section-inner">
     <div class="section-tag">02 — Work</div>
@@ -337,82 +316,53 @@
         <div class="work-badge">Research Intern — Center for AI &amp; Robotics</div>
       </div>
 
-      <!-- ── VIDEO STRIP ── -->
       <div class="strip-label">Project Videos — replace these with your own recordings</div>
       <div class="h-strip" id="vs-iit">
-
         <div class="video-item">
-          <!--  ▼▼▼  Replace src="videos/ppo_arm.mp4" with your actual file  ▼▼▼  -->
           <video src="videos/ppo_arm.mp4" muted autoplay loop playsinline
-            onerror="this.replaceWith(makePlaceholder('🦾','PPO Manipulator'))">
-          </video>
+            onerror="this.replaceWith(makePlaceholder('🦾','PPO Manipulator'))"></video>
           <div class="media-cap">6-DOF manipulator — PPO joint velocity control</div>
         </div>
-
         <div class="video-item">
           <video src="videos/sim_to_real.mp4" muted autoplay loop playsinline
-            onerror="this.replaceWith(makePlaceholder('🔄','Sim-to-Real'))">
-          </video>
+            onerror="this.replaceWith(makePlaceholder('🔄','Sim-to-Real'))"></video>
           <div class="media-cap">Sim-to-Real transfer pipeline</div>
         </div>
-
         <div class="video-item">
           <video src="videos/dual_arm.mp4" muted autoplay loop playsinline
-            onerror="this.replaceWith(makePlaceholder('🤝','Dual-Arm MAPPO'))">
-          </video>
+            onerror="this.replaceWith(makePlaceholder('🤝','Dual-Arm MAPPO'))"></video>
           <div class="media-cap">Dual-arm cooperative task via MAPPO</div>
         </div>
-
         <div class="video-item">
           <video src="videos/isaac_env.mp4" muted autoplay loop playsinline
-            onerror="this.replaceWith(makePlaceholder('🖥️','Isaac Lab Env'))">
-          </video>
+            onerror="this.replaceWith(makePlaceholder('🖥️','Isaac Lab Env'))"></video>
           <div class="media-cap">Isaac Lab RL environment setup</div>
         </div>
+      </div>
 
-      </div><!-- end video strip -->
-
-      <!-- ── PHOTO CAROUSEL ── -->
       <div style="margin-top:2.5rem">
         <div class="strip-label">Photos — replace these with your own</div>
         <div class="h-strip" id="pt-iit">
-
           <div class="photo-item">
-            <!--  ▼▼▼  Replace src with your actual image path  ▼▼▼  -->
-            <img src="photos/iit_lab.jpg"
-              onerror="this.replaceWith(makeImgPlaceholder('🏛️','IIT Mandi Lab'))"
-              alt="IIT Mandi robotics lab">
+            <img src="photos/iit_lab.jpg" onerror="this.replaceWith(makeImgPlaceholder('🏛️','IIT Mandi Lab'))" alt="IIT Mandi robotics lab">
             <div class="media-cap">Center for AI &amp; Robotics Lab, IIT Mandi</div>
           </div>
-
           <div class="photo-item">
-            <img src="photos/robot_arm.jpg"
-              onerror="this.replaceWith(makeImgPlaceholder('🦾','6-DOF Arm'))"
-              alt="6-DOF robot arm">
+            <img src="photos/robot_arm.jpg" onerror="this.replaceWith(makeImgPlaceholder('🦾','6-DOF Arm'))" alt="6-DOF robot arm">
             <div class="media-cap">6-DOF robotic manipulator setup</div>
           </div>
-
           <div class="photo-item">
-            <img src="photos/sim_screen.jpg"
-              onerror="this.replaceWith(makeImgPlaceholder('💻','Isaac Sim'))"
-              alt="Isaac Sim screenshot">
+            <img src="photos/sim_screen.jpg" onerror="this.replaceWith(makeImgPlaceholder('💻','Isaac Sim'))" alt="Isaac Sim screenshot">
             <div class="media-cap">Isaac Sim — high-fidelity simulation</div>
           </div>
-
           <div class="photo-item">
-            <img src="photos/presentation.jpg"
-              onerror="this.replaceWith(makeImgPlaceholder('🎙️','Presentation'))"
-              alt="Research presentation">
+            <img src="photos/presentation.jpg" onerror="this.replaceWith(makeImgPlaceholder('🎙️','Presentation'))" alt="Research presentation">
             <div class="media-cap">Research presentation at IIT Mandi</div>
           </div>
-
           <div class="photo-item">
-            <img src="photos/hardware_test.jpg"
-              onerror="this.replaceWith(makeImgPlaceholder('⚙️','Hardware Test'))"
-              alt="Hardware testing">
+            <img src="photos/hardware_test.jpg" onerror="this.replaceWith(makeImgPlaceholder('⚙️','Hardware Test'))" alt="Hardware testing">
             <div class="media-cap">Hardware-in-the-loop testing</div>
           </div>
-
         </div>
         <div class="carousel-nav">
           <button class="cbtn" onclick="sc('pt-iit',-1)">←</button>
@@ -420,7 +370,6 @@
         </div>
       </div>
 
-      <!-- ── WORK SUMMARY ── -->
       <div class="work-summary">
         <p>At <strong>IIT Mandi's Center for AI &amp; Robotics Lab</strong>, I work on reinforcement learning-based control for robotic manipulators, bridging the gap between simulation and real hardware.</p>
         <ul class="work-bullets">
@@ -433,7 +382,6 @@
       </div>
       <hr class="work-divider">
     </div>
-
   </div>
 </section>
 
@@ -447,7 +395,7 @@
       <div class="edu-card">
         <div class="edu-degree">B.Tech — Electronics &amp; Communication Engineering</div>
         <div class="edu-school">RGUKT Srikakulam</div>
-        <div class="edu-period">2022 – Present (4th Year)</div>
+        <div class="edu-period">2022 – 2026 (4th Year)</div>
         <span class="edu-gpa">GPA: 8.99 / 10.0</span>
         <p style="color:var(--muted);font-size:.8rem;margin-top:.8rem;line-height:1.6">Embedded Systems · Computational Science · ML for Engineering · PCB Design · Microprocessors</p>
       </div>
@@ -467,78 +415,131 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════
-     PROJECTS — media card: video hover-play or image thumbnail
-════════════════════════════════════════ -->
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-inner">
+    <div class="section-tag">04 — Publications</div>
+    <h2 class="section-title">Research Output</h2>
+    <p class="section-sub">Peer-reviewed contributions to robotics and multi-agent learning.</p>
+    <div class="pub-list fade-in">
+      <div class="pub-card">
+        <div class="pub-status">Under Review · 2nd Author</div>
+        <div class="pub-title">Adaptive Policy Blending in Multi-Agent Reinforcement Learning for Cooperative Dual-Arm Alignment</div>
+        <div class="pub-venue"><strong>IEEE Transactions on Artificial Intelligence (TAI)</strong></div>
+      </div>
+      <div class="pub-card">
+        <div class="pub-status">Under Review · 2nd Author</div>
+        <div class="pub-title">Continuous Trajectory Tracking for Non-Spherical Wrist Manipulators via Learned Differential Inverse Kinematics</div>
+        <div class="pub-venue"><strong>IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-inner">
-    <div class="section-tag">04 — Projects</div>
+    <div class="section-tag">05 — Projects</div>
     <h2 class="section-title">What I've Built</h2>
-    <p class="section-sub">Real hardware, real challenges, real solutions. Hover videos to preview.</p>
+    <p class="section-sub">Real hardware, real challenges, real solutions.</p>
     <div class="projects-grid fade-in">
 
-      <!-- PROJECT 1 — video hover-play -->
+      <!-- PROJECT 1: UR5e PBVS + IBVS -->
       <div class="project-card">
-        <!--  ▼  Replace src with your video. It plays silently on hover.  ▼  -->
         <video class="proj-thumb" src="videos/visual_servoing.mp4" muted loop playsinline
           onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
-          poster=""
-          onerror="this.replaceWith(projPlaceholder('var(--accent)','👁️','Visual Servoing Demo'))">
+          onerror="this.replaceWith(projPlaceholder('var(--accent)','👁️','UR5e Visual Servoing'))">
         </video>
         <div class="proj-body">
-          <div class="proj-sub">3-DOF Manipulator · ROS2</div>
-          <div class="proj-title">Visual Servoing — IBVS &amp; PBVS</div>
-          <div class="proj-desc">Control framework for target tracking. ArUco markers for 4D pose estimation; Image Jacobian maps pixel errors to joint velocities. <em style="color:var(--muted);font-size:.78rem">→ replace video with yours</em></div>
+          <div class="proj-sub">6-DOF UR5e · ROS2 Jazzy · MoveIt2</div>
+          <div class="proj-title">PBVS &amp; Hybrid IBVS+PBVS on UR5e</div>
+          <div class="proj-desc">Sub-millimeter end-effector positioning (0.4 mm error) via RGB-D camera in Eye-to-Hand config. Two-phase hybrid controller: wrist pan/tilt (IBVS) to maintain FOV, then full PBVS for precise convergence. Validated in Gazebo with 0.5 mm error in Eye-in-Hand mode.</div>
           <div class="proj-tags">
-            <span class="proj-tag">ROS2</span><span class="proj-tag">OpenCV</span><span class="proj-tag">IBVS</span><span class="proj-tag">PBVS</span><span class="proj-tag">ArUco</span>
+            <span class="proj-tag">ROS2 Jazzy</span><span class="proj-tag">MoveIt2</span><span class="proj-tag">PBVS</span><span class="proj-tag">IBVS</span><span class="proj-tag">OpenCV</span><span class="proj-tag">RGB-D</span><span class="proj-tag">Gazebo</span>
           </div>
+          <a href="https://github.com/Saitej01/ur5e-visual-servoing" target="_blank" class="proj-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
         </div>
       </div>
 
-      <!-- PROJECT 2 — photo thumbnail -->
+      <!-- PROJECT 2: Nav2 Waypoint Navigator -->
       <div class="project-card">
-        <!--  ▼  Replace src with your image  ▼  -->
+        <video class="proj-thumb" src="videos/nav2_waypoint.mp4" muted loop playsinline
+          onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+          onerror="this.replaceWith(projPlaceholder('var(--accent2)','🤖','Nav2 Navigator'))">
+        </video>
+        <div class="proj-body">
+          <div class="proj-sub">ROS2 · Nav2 · TurtleBot3</div>
+          <div class="proj-title">ROS2 Nav2 Waypoint Navigator</div>
+          <div class="proj-desc">Autonomous TurtleBot3 Burger navigation through YAML-configurable sequential waypoints using Nav2's BasicNavigator API. Fault-tolerant with per-waypoint retry logic, TF tree stabilization delay, and full pytest unit test coverage.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">ROS2 Humble</span><span class="proj-tag">Nav2</span><span class="proj-tag">AMCL</span><span class="proj-tag">Gazebo</span><span class="proj-tag">Python</span><span class="proj-tag">pytest</span>
+          </div>
+          <a href="https://github.com/Saitej01/nav2-waypoint-navigator" target="_blank" class="proj-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: AI Surveillance Robot -->
+      <div class="project-card">
+        <video class="proj-thumb" src="videos/surveillance_robot.mp4" muted loop playsinline
+          onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+          onerror="this.replaceWith(projPlaceholder('var(--accent3)','📡','AI Surveillance'))">
+        </video>
+        <div class="proj-body">
+          <div class="proj-sub">Raspberry Pi 4 · YOLOv8 · Python</div>
+          <div class="proj-title">AI Surveillance Robot</div>
+          <div class="proj-desc">Mobile surveillance robot with YOLOv8 for real-time detection of persons, vehicle number plates, and animals on live video. Features a local web interface for network-restricted live streaming and automatic snapshot logging.</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Raspberry Pi 4</span><span class="proj-tag">YOLOv8</span><span class="proj-tag">OpenCV</span><span class="proj-tag">L298N</span><span class="proj-tag">Python</span>
+          </div>
+          <a href="https://github.com/Saitej01/ai-surveillance-robot" target="_blank" class="proj-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: 4-DOF Robotic Arm -->
+      <div class="project-card">
         <img class="proj-thumb" src="photos/robotic_arm_bt.jpg"
           onerror="this.replaceWith(projPlaceholder('var(--accent2)','🦾','4-DOF Robotic Arm'))"
           alt="4-DOF Robotic Arm">
         <div class="proj-body">
           <div class="proj-sub">Embedded Systems · Arduino</div>
           <div class="proj-title">4-DOF Robotic Arm — Bluetooth Control</div>
-          <div class="proj-desc">SG90 servo arm with wireless control via HC-05 Bluetooth + UART, enabling real-time smartphone manipulation. <em style="color:var(--muted);font-size:.78rem">→ replace photo with yours</em></div>
+          <div class="proj-desc">Fabricated 4-DOF arm using SG90 servo motors with wireless control via HC-05 Bluetooth + UART protocol, enabling real-time smartphone manipulation.</div>
           <div class="proj-tags">
-            <span class="proj-tag">Arduino</span><span class="proj-tag">Bluetooth</span><span class="proj-tag">UART</span><span class="proj-tag">Servo</span>
+            <span class="proj-tag">Arduino</span><span class="proj-tag">HC-05</span><span class="proj-tag">UART</span><span class="proj-tag">SG90</span><span class="proj-tag">C</span>
           </div>
+          <a href="https://github.com/Saitej01/robotic-arm-bluetooth" target="_blank" class="proj-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
         </div>
       </div>
 
-      <!-- PROJECT 3 — video hover-play -->
+      <!-- PROJECT 5: RC Car -->
       <div class="project-card">
         <video class="proj-thumb" src="videos/rc_car.mp4" muted loop playsinline
           onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
           onerror="this.replaceWith(projPlaceholder('var(--accent2)','🚗','RC Car Demo'))">
         </video>
         <div class="proj-body">
-          <div class="proj-sub">ESP8266 · Wireless</div>
+          <div class="proj-sub">ESP8266 · ESP-NOW · Wireless</div>
           <div class="proj-title">RC Car — ESP-NOW Wireless Control</div>
-          <div class="proj-desc">Low-latency P2P RC vehicle using ESP-NOW with H-Bridge motor driver and servo-actuated mechanical steering. <em style="color:var(--muted);font-size:.78rem">→ replace video with yours</em></div>
+          <div class="proj-desc">Low-latency P2P RC vehicle using ESP-NOW protocol with H-Bridge motor driver and servo-actuated mechanical steering. Custom joystick remote with power-efficient wireless data transmission.</div>
           <div class="proj-tags">
-            <span class="proj-tag">ESP8266</span><span class="proj-tag">ESP-NOW</span><span class="proj-tag">L298N</span><span class="proj-tag">Embedded C</span>
+            <span class="proj-tag">ESP8266</span><span class="proj-tag">ESP-NOW</span><span class="proj-tag">L298N</span><span class="proj-tag">C++</span>
           </div>
-        </div>
-      </div>
-
-      <!-- PROJECT 4 — photo thumbnail -->
-      <div class="project-card">
-        <img class="proj-thumb" src="photos/ocr_system.jpg"
-          onerror="this.replaceWith(projPlaceholder('var(--accent3)','📷','Smart Camera OCR'))"
-          alt="Smart Camera OCR">
-        <div class="proj-body">
-          <div class="proj-sub">Computer Vision · Python</div>
-          <div class="proj-title">Smart Camera System with OCR</div>
-          <div class="proj-desc">Image-based text extraction using pre-trained OCR model with CV pipelines — detects characters from license plates and labels. <em style="color:var(--muted);font-size:.78rem">→ replace photo with yours</em></div>
-          <div class="proj-tags">
-            <span class="proj-tag">Python</span><span class="proj-tag">OpenCV</span><span class="proj-tag">OCR</span><span class="proj-tag">Computer Vision</span>
-          </div>
+          <a href="https://github.com/Saitej01/rc-car-esp8266" target="_blank" class="proj-link">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
         </div>
       </div>
 
@@ -549,16 +550,52 @@
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-inner">
-    <div class="section-tag">05 — Skills</div>
+    <div class="section-tag">06 — Skills</div>
     <h2 class="section-title">My Toolkit</h2>
     <p class="section-sub">Languages, frameworks, and tools I work with.</p>
     <div class="skills-wrap fade-in">
-      <div><div class="sg-title">Programming Languages</div><div class="chips"><span class="chip hl">Python</span><span class="chip">C</span><span class="chip">C++</span><span class="chip">Assembly 8085</span><span class="chip">Assembly 8086</span></div></div>
-      <div><div class="sg-title">Robot Learning &amp; Control</div><div class="chips"><span class="chip hl">Reinforcement Learning</span><span class="chip hl">PPO</span><span class="chip hl">MAPPO</span><span class="chip">Forward Kinematics</span><span class="chip">Inverse Kinematics</span><span class="chip">Velocity Kinematics</span></div></div>
-      <div><div class="sg-title">Simulation &amp; Robotics</div><div class="chips"><span class="chip hl">ROS2</span><span class="chip hl">IsaacLab</span><span class="chip">IsaacSim</span><span class="chip">IsaacGym</span><span class="chip">Gazebo</span><span class="chip">RViz</span><span class="chip">PyBullet</span></div></div>
-      <div><div class="sg-title">Embedded Systems</div><div class="chips"><span class="chip">Arduino</span><span class="chip">ESP32</span><span class="chip">ESP8266</span><span class="chip">Raspberry Pi</span><span class="chip">ESP32Cam</span></div></div>
-      <div><div class="sg-title">Deep Learning &amp; CV</div><div class="chips"><span class="chip hl">PyTorch</span><span class="chip hl">OpenCV</span><span class="chip">Computer Vision</span></div></div>
-      <div><div class="sg-title">Tools &amp; Design</div><div class="chips"><span class="chip">Arduino IDE</span><span class="chip">Fusion 360</span><span class="chip">Tinkercad</span><span class="chip">Wokwi</span></div></div>
+      <div>
+        <div class="sg-title">Programming Languages</div>
+        <div class="chips">
+          <span class="chip hl">Python</span><span class="chip">C</span><span class="chip">C++</span><span class="chip">Assembly 8085</span><span class="chip">Assembly 8086</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Robot Learning &amp; Control</div>
+        <div class="chips">
+          <span class="chip hl">Reinforcement Learning</span><span class="chip hl">PPO</span><span class="chip hl">MAPPO</span><span class="chip">PBVS</span><span class="chip">IBVS</span><span class="chip">Forward Kinematics</span><span class="chip">Inverse Kinematics</span><span class="chip">Velocity Kinematics</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Robotics &amp; ROS2</div>
+        <div class="chips">
+          <span class="chip hl">ROS2</span><span class="chip hl">Nav2</span><span class="chip hl">MoveIt2</span><span class="chip">ros2_control</span><span class="chip">TF2</span><span class="chip">URDF/XACRO</span><span class="chip">RViz2</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Simulation</div>
+        <div class="chips">
+          <span class="chip hl">IsaacLab</span><span class="chip">IsaacSim</span><span class="chip">IsaacGym</span><span class="chip">Gazebo</span><span class="chip">PyBullet</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Deep Learning &amp; CV</div>
+        <div class="chips">
+          <span class="chip hl">PyTorch</span><span class="chip hl">OpenCV</span><span class="chip hl">YOLOv8</span><span class="chip">RGB-D Perception</span><span class="chip">Computer Vision</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Embedded Systems</div>
+        <div class="chips">
+          <span class="chip">Arduino</span><span class="chip">ESP32</span><span class="chip">ESP8266</span><span class="chip">Raspberry Pi</span><span class="chip">ESP32Cam</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-title">Tools &amp; Design</div>
+        <div class="chips">
+          <span class="chip">Git</span><span class="chip">Arduino IDE</span><span class="chip">Fusion 360</span><span class="chip">Tinkercad</span><span class="chip">Wokwi</span><span class="chip">Thonny</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -566,7 +603,7 @@
 <!-- ACTIVITIES -->
 <section id="activities">
   <div class="section-inner">
-    <div class="section-tag">06 — Activities</div>
+    <div class="section-tag">07 — Activities</div>
     <h2 class="section-title">Leadership &amp; Achievements</h2>
     <p class="section-sub">Building community and sharing knowledge beyond the lab.</p>
     <div class="act-grid fade-in">
@@ -581,16 +618,25 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
-    <div class="section-tag">07 — Contact</div>
+    <div class="section-tag">08 — Contact</div>
     <h2 class="section-title" style="margin-bottom:.5rem">Let's Build Something Real</h2>
     <p class="section-sub" style="text-align:center">Open to research collaborations, internships, and full-time roles in robotics &amp; RL.</p>
     <div class="contact-card fade-in">
       <div class="contact-tagline">Get In Touch</div>
       <p class="contact-desc">Whether you have a project, a research idea, or just want to talk robots — my inbox is open.</p>
       <div class="clinks">
-        <a href="/cdn-cgi/l/email-protection#3f525e5555564c5e564b5a555e0e0d7f58525e5653115c5052" class="clink"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email Me</a>
-        <a href="https://linkedin.com/in/SaiTejaMajji" class="clink" target="_blank"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
-        <a href="https://github.com/Saitej01" class="clink" target="_blank"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+        <a href="mailto:majjisaiteja12@gmail.com" class="clink">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email Me
+        </a>
+        <a href="https://linkedin.com/in/SaiTejaMajji" class="clink" target="_blank">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/Saitej01" class="clink" target="_blank">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub
+        </a>
       </div>
     </div>
   </div>
@@ -598,9 +644,8 @@
 
 <footer>Built by Majji Sai Teja &nbsp;·&nbsp; Robotics &amp; RL Engineer &nbsp;·&nbsp; 2025</footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── Typed text ── */
-const phrases=["learning-based robots.","RL control policies.","sim-to-real pipelines.","dual-arm systems."];
+<script>
+const phrases=["learning-based robots.","RL control policies.","sim-to-real pipelines.","dual-arm systems.","visual servoing systems."];
 let pi=0,ci=0,del=false;
 const el=document.getElementById('typed-text');
 function typeLoop(){
@@ -611,14 +656,11 @@ function typeLoop(){
 }
 typeLoop();
 
-/* ── Scroll fade-in ── */
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
 document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-/* ── Photo carousel buttons ── */
 function sc(id,dir){document.getElementById(id).scrollBy({left:dir*340,behavior:'smooth'});}
 
-/* ── Video items: pause when off-screen ── */
 const vObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     const v=e.target.querySelector('video');
